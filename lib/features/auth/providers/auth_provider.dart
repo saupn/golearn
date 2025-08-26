@@ -7,17 +7,18 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
   return MockUserRepository();
 });
 
-final authProvider = StateNotifierProvider<AuthNotifier, AsyncValue<User?>>((
-  ref,
-) {
-  return AuthNotifier(ref.read(userRepositoryProvider));
+final authProvider = NotifierProvider<AuthNotifier, AsyncValue<User?>>(() {
+  return AuthNotifier();
 });
 
-class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
-  final UserRepository _userRepository;
+class AuthNotifier extends Notifier<AsyncValue<User?>> {
+  late final UserRepository _userRepository;
 
-  AuthNotifier(this._userRepository) : super(const AsyncValue.loading()) {
+  @override
+  AsyncValue<User?> build() {
+    _userRepository = ref.read(userRepositoryProvider);
     _checkCurrentUser();
+    return const AsyncValue.loading();
   }
 
   Future<void> _checkCurrentUser() async {

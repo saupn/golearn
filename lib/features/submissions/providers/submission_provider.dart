@@ -15,13 +15,11 @@ final evaluationRepositoryProvider = Provider<EvaluationRepository>((ref) {
 });
 
 final submissionProvider =
-    StateNotifierProvider.family<
+    NotifierProvider.family<
       SubmissionNotifier,
       AsyncValue<Submission?>,
       String
-    >((ref, submissionId) {
-      return SubmissionNotifier(ref, submissionId);
-    });
+    >(SubmissionNotifier.new);
 
 final evaluationBySubmissionProvider =
     FutureProvider.family<Evaluation?, String>((ref, submissionId) async {
@@ -29,19 +27,17 @@ final evaluationBySubmissionProvider =
       return evaluationRepo.getEvaluationBySubmission(submissionId);
     });
 
-class SubmissionNotifier extends StateNotifier<AsyncValue<Submission?>> {
-  final Ref _ref;
-  final String _submissionId;
-
-  SubmissionNotifier(this._ref, this._submissionId)
-    : super(const AsyncValue.loading()) {
+class SubmissionNotifier extends FamilyNotifier<AsyncValue<Submission?>, String> {
+  @override
+  AsyncValue<Submission?> build(String submissionId) {
     _loadSubmission();
+    return const AsyncValue.loading();
   }
 
   Future<void> _loadSubmission() async {
     try {
-      final submissionRepo = _ref.read(submissionRepositoryProvider);
-      final submission = await submissionRepo.getSubmission(_submissionId);
+      final submissionRepo = ref.read(submissionRepositoryProvider);
+      final submission = await submissionRepo.getSubmission(arg);
       state = AsyncValue.data(submission);
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
@@ -58,15 +54,15 @@ class SubmissionNotifier extends StateNotifier<AsyncValue<Submission?>> {
 
     await Future.delayed(const Duration(seconds: 3));
 
-    final submissionRepo = _ref.read(submissionRepositoryProvider);
+    final submissionRepo = ref.read(submissionRepositoryProvider);
     await submissionRepo.updateSubmissionStatus(
-      _submissionId,
+      arg,
       SubmissionStatus.evaluated,
     );
 
-    final updatedSubmission = await submissionRepo.getSubmission(_submissionId);
+    final updatedSubmission = await submissionRepo.getSubmission(arg);
     state = AsyncValue.data(updatedSubmission);
 
-    _ref.invalidate(evaluationBySubmissionProvider(_submissionId));
+    ref.invalidate(evaluationBySubmissionProvider(arg));
   }
 }

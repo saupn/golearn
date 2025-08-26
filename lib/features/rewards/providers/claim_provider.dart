@@ -16,14 +16,13 @@ final availableBalanceProvider = FutureProvider<double>((ref) async {
   );
 });
 
-final claimProvider = StateNotifierProvider<ClaimNotifier, ClaimState>((ref) {
-  return ClaimNotifier(ref);
+final claimProvider = NotifierProvider<ClaimNotifier, ClaimState>(() {
+  return ClaimNotifier();
 });
 
-class ClaimNotifier extends StateNotifier<ClaimState> {
-  final Ref _ref;
-
-  ClaimNotifier(this._ref) : super(const ClaimState());
+class ClaimNotifier extends Notifier<ClaimState> {
+  @override
+  ClaimState build() => const ClaimState();
 
   Future<void> startClaim(double amount) async {
     state = state.copyWith(
@@ -38,11 +37,11 @@ class ClaimNotifier extends StateNotifier<ClaimState> {
 
     await Future.delayed(const Duration(seconds: 3));
 
-    final authState = _ref.read(authProvider);
+    final authState = ref.read(authProvider);
     final user = authState.value;
     if (user == null) return;
 
-    final transactionRepo = _ref.read(transactionRepositoryProvider);
+    final transactionRepo = ref.read(transactionRepositoryProvider);
     await transactionRepo.createClaimTransaction(user.id, amount);
 
     state = state.copyWith(
@@ -52,8 +51,8 @@ class ClaimNotifier extends StateNotifier<ClaimState> {
       statusMessage: 'Claim completed successfully!',
     );
 
-    _ref.invalidate(authProvider);
-    _ref.invalidate(availableBalanceProvider);
+    ref.invalidate(authProvider);
+    ref.invalidate(availableBalanceProvider);
   }
 
   void reset() {

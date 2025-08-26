@@ -61,4 +61,13 @@ class AppRadius {
   static const double xl = 24;
 }
 
-final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.system);
+final themeModeProvider = NotifierProvider<ThemeModeNotifier, ThemeMode>(ThemeModeNotifier.new);
+
+class ThemeModeNotifier extends Notifier<ThemeMode> {
+  @override
+  ThemeMode build() => ThemeMode.system;
+
+  void setThemeMode(ThemeMode mode) {
+    state = mode;
+  }
+}

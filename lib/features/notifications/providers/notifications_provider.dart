@@ -24,32 +24,31 @@ final userNotificationsProvider = FutureProvider<List<AppNotification>>((
 });
 
 final notificationsProvider =
-    StateNotifierProvider<
+    NotifierProvider<
       NotificationsNotifier,
       AsyncValue<List<AppNotification>>
-    >((ref) {
-      return NotificationsNotifier(ref);
-    });
+    >(NotificationsNotifier.new);
 
 class NotificationsNotifier
-    extends StateNotifier<AsyncValue<List<AppNotification>>> {
-  final Ref _ref;
-
-  NotificationsNotifier(this._ref) : super(const AsyncValue.loading());
+    extends Notifier<AsyncValue<List<AppNotification>>> {
+  @override
+  AsyncValue<List<AppNotification>> build() {
+    return const AsyncValue.loading();
+  }
 
   Future<void> markAsRead(String notificationId) async {
-    final notificationRepo = _ref.read(notificationRepositoryProvider);
+    final notificationRepo = ref.read(notificationRepositoryProvider);
     await notificationRepo.markAsRead(notificationId);
-    _ref.invalidate(userNotificationsProvider);
+    ref.invalidate(userNotificationsProvider);
   }
 
   Future<void> markAllAsRead() async {
-    final authState = _ref.read(authProvider);
+    final authState = ref.read(authProvider);
     final user = authState.value;
     if (user == null) return;
 
-    final notificationRepo = _ref.read(notificationRepositoryProvider);
+    final notificationRepo = ref.read(notificationRepositoryProvider);
     await notificationRepo.markAllAsRead(user.id);
-    _ref.invalidate(userNotificationsProvider);
+    ref.invalidate(userNotificationsProvider);
   }
 }
