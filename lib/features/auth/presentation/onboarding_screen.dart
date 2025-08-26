@@ -35,10 +35,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
           return Row(
             children: [
               if (details.stepIndex < 2)
-                PrimaryButton(
-                  text: 'Next',
-                  onPressed: details.onStepContinue,
-                ),
+                PrimaryButton(text: 'Next', onPressed: details.onStepContinue),
               if (details.stepIndex == 2)
                 PrimaryButton(
                   text: 'Get Started',
@@ -98,20 +95,22 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   Widget _buildDomainStep() {
     final domainsAsync = ref.watch(domainsProvider);
-    
+
     return domainsAsync.when(
       data: (domains) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Choose a domain to start your learning journey:'),
           const SizedBox(height: AppSpacing.md),
-          ...domains.map((domain) => RadioListTile<String>(
-            title: Text(domain.name),
-            subtitle: Text(domain.description),
-            value: domain.id,
-            groupValue: _selectedDomainId,
-            onChanged: (value) => setState(() => _selectedDomainId = value),
-          )),
+          ...domains.map(
+            (domain) => RadioListTile<String>(
+              title: Text(domain.name),
+              subtitle: Text(domain.description),
+              value: domain.id,
+              groupValue: _selectedDomainId,
+              onChanged: (value) => setState(() => _selectedDomainId = value),
+            ),
+          ),
         ],
       ),
       loading: () => const Center(child: CircularProgressIndicator()),

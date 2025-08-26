@@ -7,7 +7,9 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
   return MockUserRepository();
 });
 
-final authProvider = StateNotifierProvider<AuthNotifier, AsyncValue<User?>>((ref) {
+final authProvider = StateNotifierProvider<AuthNotifier, AsyncValue<User?>>((
+  ref,
+) {
   return AuthNotifier(ref.read(userRepositoryProvider));
 });
 

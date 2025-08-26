@@ -7,9 +7,14 @@ class MockSubmissionRepository implements SubmissionRepository {
   final Map<String, Timer> _statusTimers = {};
 
   @override
-  Future<Submission> createSubmission(String userId, String missionId, SubmissionType type, String payload) async {
+  Future<Submission> createSubmission(
+    String userId,
+    String missionId,
+    SubmissionType type,
+    String payload,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 300));
-    
+
     final submission = Submission(
       id: 'submission_${DateTime.now().millisecondsSinceEpoch}',
       userId: userId,
@@ -19,7 +24,7 @@ class MockSubmissionRepository implements SubmissionRepository {
       status: SubmissionStatus.pending,
       createdAt: DateTime.now(),
     );
-    
+
     _submissions.add(submission);
     _simulateStatusTransition(submission.id);
     return submission;
@@ -38,9 +43,12 @@ class MockSubmissionRepository implements SubmissionRepository {
   }
 
   @override
-  Future<Submission> updateSubmissionStatus(String submissionId, SubmissionStatus status) async {
+  Future<Submission> updateSubmissionStatus(
+    String submissionId,
+    SubmissionStatus status,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 200));
-    
+
     final index = _submissions.indexWhere((s) => s.id == submissionId);
     if (index != -1) {
       _submissions[index] = _submissions[index].copyWith(
@@ -51,10 +59,15 @@ class MockSubmissionRepository implements SubmissionRepository {
     return _submissions[index];
   }
 
+  @override
+  Future<Submission?> getSubmission(String id) async {
+    return getSubmissionById(id);
+  }
+
   void _simulateStatusTransition(String submissionId) {
     Timer(const Duration(seconds: 2), () async {
       await updateSubmissionStatus(submissionId, SubmissionStatus.processing);
-      
+
       Timer(const Duration(seconds: 3), () async {
         await updateSubmissionStatus(submissionId, SubmissionStatus.evaluated);
       });

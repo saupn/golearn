@@ -18,9 +18,7 @@ class ClaimScreen extends ConsumerWidget {
     final balanceAsync = ref.watch(availableBalanceProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Claim Rewards'),
-      ),
+      appBar: AppBar(title: const Text('Claim Rewards')),
       body: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
         child: Column(
@@ -53,7 +51,9 @@ class ClaimScreen extends ConsumerWidget {
                   Text(
                     'Minimum claim amount: 10 L2E',
                     style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer.withOpacity(0.7),
+                      color: theme.colorScheme.onPrimaryContainer.withOpacity(
+                        0.7,
+                      ),
                     ),
                   ),
                 ],
@@ -136,17 +136,14 @@ class ClaimScreen extends ConsumerWidget {
                 data: (balance) => PrimaryButton(
                   text: 'Claim ${balance.toStringAsFixed(2)} L2E',
                   onPressed: balance >= 10.0
-                      ? () => ref.read(claimProvider.notifier).startClaim(balance)
+                      ? () =>
+                            ref.read(claimProvider.notifier).startClaim(balance)
                       : null,
                 ),
-                loading: () => const PrimaryButton(
-                  text: 'Loading...',
-                  onPressed: null,
-                ),
-                error: (_, __) => const PrimaryButton(
-                  text: 'Error',
-                  onPressed: null,
-                ),
+                loading: () =>
+                    const PrimaryButton(text: 'Loading...', onPressed: null),
+                error: (_, __) =>
+                    const PrimaryButton(text: 'Error', onPressed: null),
               ),
           ],
         ),
@@ -162,7 +159,7 @@ class ClaimScreen extends ConsumerWidget {
     bool isCompleted,
   ) {
     final theme = Theme.of(context);
-    
+
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.md),
       child: Row(

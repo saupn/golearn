@@ -13,13 +13,17 @@ class MockTransactionRepository implements TransactionRepository {
   }
 
   @override
-  Future<Transaction> createTransaction(String userId, TransactionType type, double amount) async {
+  Future<Transaction> createTransaction(
+    String userId,
+    TransactionType type,
+    double amount,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 300));
-    
-    final newBalance = type == TransactionType.claim 
-      ? _currentBalance - amount 
-      : _currentBalance + amount;
-    
+
+    final newBalance = type == TransactionType.claim
+        ? _currentBalance - amount
+        : _currentBalance + amount;
+
     final transaction = Transaction(
       id: 'tx_${DateTime.now().millisecondsSinceEpoch}',
       userId: userId,
@@ -29,28 +33,41 @@ class MockTransactionRepository implements TransactionRepository {
       status: TransactionStatus.pending,
       createdAt: DateTime.now(),
     );
-    
+
     _transactions.add(transaction);
     _simulateConfirmation(transaction.id);
     return transaction;
   }
 
   @override
-  Future<Transaction> updateTransactionStatus(String transactionId, TransactionStatus status) async {
+  Future<Transaction> updateTransactionStatus(
+    String transactionId,
+    TransactionStatus status,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 200));
-    
+
     final index = _transactions.indexWhere((t) => t.id == transactionId);
     if (index != -1) {
       _transactions[index] = _transactions[index].copyWith(
         status: status,
-        confirmedAt: status == TransactionStatus.confirmed ? DateTime.now() : null,
+        confirmedAt: status == TransactionStatus.confirmed
+            ? DateTime.now()
+            : null,
       );
-      
+
       if (status == TransactionStatus.confirmed) {
         _currentBalance = _transactions[index].balanceAfter;
       }
     }
     return _transactions[index];
+  }
+
+  @override
+  Future<Transaction> createClaimTransaction(
+    String userId,
+    double amount,
+  ) async {
+    return createTransaction(userId, TransactionType.claim, amount);
   }
 
   void _simulateConfirmation(String transactionId) {

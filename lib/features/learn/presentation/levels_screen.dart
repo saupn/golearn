@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../l10n/l10n.dart';
 import '../../../theme/app_theme.dart';
+import '../../../common/models/level.dart';
 import '../../../common/widgets/l2e_card.dart';
 import '../../../common/widgets/metric_chip.dart';
 import '../../../common/widgets/empty_state.dart';
@@ -18,9 +19,7 @@ class LevelsScreen extends ConsumerWidget {
     final levelsAsync = ref.watch(levelsByDomainProvider(domainId));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Levels'),
-      ),
+      appBar: AppBar(title: const Text('Levels')),
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(levelsByDomainProvider(domainId));
@@ -52,9 +51,10 @@ class LevelsScreen extends ConsumerWidget {
                                 Expanded(
                                   child: Text(
                                     'Level ${level.levelNumber}: ${level.title}',
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 MetricChip.fromLevelStatus(level.status),
@@ -63,16 +63,22 @@ class LevelsScreen extends ConsumerWidget {
                             const SizedBox(height: AppSpacing.sm),
                             Text(
                               'Target Income: \$${level.incomeTargetUsd.toStringAsFixed(0)}',
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                  ),
                             ),
                             const SizedBox(height: AppSpacing.sm),
                             Text(
                               'Base Reward: ${level.rewardRule.baseToken} L2E tokens',
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
                             ),
                             if (level.status == LevelStatus.locked) ...[
                               const SizedBox(height: AppSpacing.sm),
@@ -81,16 +87,21 @@ class LevelsScreen extends ConsumerWidget {
                                   Icon(
                                     Icons.lock,
                                     size: 16,
-                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                   ),
                                   const SizedBox(width: AppSpacing.xs),
                                   Text(
                                     level.gatingRule.requirePrevLevel
                                         ? 'Complete previous level to unlock'
                                         : 'Requirements not met',
-                                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                    ),
+                                    style: Theme.of(context).textTheme.bodySmall
+                                        ?.copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurfaceVariant,
+                                        ),
                                   ),
                                 ],
                               ),

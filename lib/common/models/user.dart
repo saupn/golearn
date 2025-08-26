@@ -77,15 +77,9 @@ class UserStats {
 class UserWallets {
   final String? polygonAddress;
 
-  const UserWallets({
-    this.polygonAddress,
-  });
+  const UserWallets({this.polygonAddress});
 
-  UserWallets copyWith({
-    String? polygonAddress,
-  }) {
-    return UserWallets(
-      polygonAddress: polygonAddress ?? this.polygonAddress,
-    );
+  UserWallets copyWith({String? polygonAddress}) {
+    return UserWallets(polygonAddress: polygonAddress ?? this.polygonAddress);
   }
 }

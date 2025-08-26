@@ -8,20 +8,34 @@ final levelRepositoryProvider = Provider<LevelRepository>((ref) {
   return MockLevelRepository();
 });
 
-final levelsByDomainProvider = FutureProvider.family<List<Level>, String>((ref, domainId) async {
+final levelsByDomainProvider = FutureProvider.family<List<Level>, String>((
+  ref,
+  domainId,
+) async {
   final levelRepo = ref.read(levelRepositoryProvider);
   return levelRepo.getLevelsByDomain(domainId);
 });
 
-final levelProvider = FutureProvider.family<Level?, String>((ref, levelId) async {
+final levelProvider = FutureProvider.family<Level?, String>((
+  ref,
+  levelId,
+) async {
   final levelRepo = ref.read(levelRepositoryProvider);
   return levelRepo.getLevelById(levelId);
 });
 
-final nextLevelProvider = FutureProvider.family<Level?, String>((ref, domainId) async {
-  final user = await ref.watch(authProvider.future);
-  if (user == null) return null;
-  
-  final levelRepo = ref.read(levelRepositoryProvider);
-  return levelRepo.getNextLevel(domainId, user.id);
+final nextLevelProvider = FutureProvider.family<Level?, String>((
+  ref,
+  domainId,
+) async {
+  final authState = ref.watch(authProvider);
+  return authState.when(
+    data: (user) async {
+      if (user == null) return null;
+      final levelRepo = ref.read(levelRepositoryProvider);
+      return levelRepo.getNextLevel(domainId, user.id);
+    },
+    loading: () => null,
+    error: (_, __) => null,
+  );
 });

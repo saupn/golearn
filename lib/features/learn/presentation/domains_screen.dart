@@ -16,9 +16,7 @@ class DomainsScreen extends ConsumerWidget {
     final domainsAsync = ref.watch(domainsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.domains),
-      ),
+      appBar: AppBar(title: Text(l10n.domains)),
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(domainsProvider);
@@ -56,10 +54,12 @@ class DomainsScreen extends ConsumerWidget {
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) =>
                                     Container(
-                                  height: 100,
-                                  color: Theme.of(context).colorScheme.surfaceVariant,
-                                  child: const Icon(Icons.school, size: 48),
-                                ),
+                                      height: 100,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.surfaceVariant,
+                                      child: const Icon(Icons.school, size: 48),
+                                    ),
                               ),
                             )
                           else
@@ -67,26 +67,32 @@ class DomainsScreen extends ConsumerWidget {
                               height: 100,
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: Theme.of(context).colorScheme.surfaceVariant,
-                                borderRadius: BorderRadius.circular(AppRadius.sm),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.surfaceVariant,
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.sm,
+                                ),
                               ),
                               child: const Icon(Icons.school, size: 48),
                             ),
                           const SizedBox(height: AppSpacing.sm),
                           Text(
                             domain.name,
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(height: AppSpacing.xs),
                           Text(
                             domain.description,
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),

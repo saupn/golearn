@@ -98,22 +98,25 @@ class HomeScreen extends ConsumerWidget {
                       )
                     : Column(
                         children: domains
-                            .map((domain) => L2ECard(
-                                  onTap: () => context.push('/domain/${domain.id}'),
-                                  child: ListTile(
-                                    leading: domain.thumbnailUrl != null
-                                        ? Image.network(
-                                            domain.thumbnailUrl!,
-                                            width: 48,
-                                            height: 48,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : const Icon(Icons.school, size: 48),
-                                    title: Text(domain.name),
-                                    subtitle: Text(domain.description),
-                                    trailing: const Icon(Icons.arrow_forward_ios),
-                                  ),
-                                ))
+                            .map(
+                              (domain) => L2ECard(
+                                onTap: () =>
+                                    context.push('/domain/${domain.id}'),
+                                child: ListTile(
+                                  leading: domain.thumbnailUrl != null
+                                      ? Image.network(
+                                          domain.thumbnailUrl!,
+                                          width: 48,
+                                          height: 48,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : const Icon(Icons.school, size: 48),
+                                  title: Text(domain.name),
+                                  subtitle: Text(domain.description),
+                                  trailing: const Icon(Icons.arrow_forward_ios),
+                                ),
+                              ),
+                            )
                             .toList(),
                       ),
                 loading: () => const Center(child: CircularProgressIndicator()),
@@ -129,7 +132,7 @@ class HomeScreen extends ConsumerWidget {
   Widget _buildWelcomeSection(BuildContext context, String displayName) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    
+
     return L2ECard(
       child: Row(
         children: [
@@ -153,11 +156,7 @@ class HomeScreen extends ConsumerWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.waving_hand,
-            size: 32,
-            color: theme.colorScheme.primary,
-          ),
+          Icon(Icons.waving_hand, size: 32, color: theme.colorScheme.primary),
         ],
       ),
     );
@@ -166,7 +165,7 @@ class HomeScreen extends ConsumerWidget {
   Widget _buildTokenBalanceCard(BuildContext context, double balance) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    
+
     return L2ECard(
       backgroundColor: theme.colorScheme.primaryContainer,
       child: Row(
@@ -203,7 +202,7 @@ class HomeScreen extends ConsumerWidget {
 
   Widget _buildQuickActions(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Row(
       children: [
         Expanded(

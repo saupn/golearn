@@ -1,4 +1,5 @@
 enum ModuleStatus { locked, inProgress, completed }
+
 enum StrandType { theory, practice, project }
 
 class Module {

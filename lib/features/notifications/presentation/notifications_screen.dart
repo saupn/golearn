@@ -23,7 +23,8 @@ class NotificationsScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.mark_email_read),
-            onPressed: () => ref.read(notificationsProvider.notifier).markAllAsRead(),
+            onPressed: () =>
+                ref.read(notificationsProvider.notifier).markAllAsRead(),
           ),
         ],
       ),
@@ -36,7 +37,8 @@ class NotificationsScreen extends ConsumerWidget {
               ? EmptyState(
                   icon: Icons.notifications_none,
                   title: 'No Notifications',
-                  message: 'You\'re all caught up! Check back later for updates.',
+                  message:
+                      'You\'re all caught up! Check back later for updates.',
                 )
               : ListView.builder(
                   padding: const EdgeInsets.all(AppSpacing.md),
@@ -48,10 +50,13 @@ class NotificationsScreen extends ConsumerWidget {
                       child: L2ECard(
                         backgroundColor: notification.isRead
                             ? null
-                            : theme.colorScheme.primaryContainer.withOpacity(0.1),
+                            : theme.colorScheme.primaryContainer.withOpacity(
+                                0.1,
+                              ),
                         onTap: () {
                           if (!notification.isRead) {
-                            ref.read(notificationsProvider.notifier)
+                            ref
+                                .read(notificationsProvider.notifier)
                                 .markAsRead(notification.id);
                           }
                           if (notification.deepLink != null) {
@@ -60,7 +65,10 @@ class NotificationsScreen extends ConsumerWidget {
                         },
                         child: ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: _getNotificationColor(theme, notification.type),
+                            backgroundColor: _getNotificationColor(
+                              theme,
+                              notification.type,
+                            ),
                             child: Icon(
                               _getNotificationIcon(notification.type),
                               color: theme.colorScheme.onPrimary,
@@ -69,8 +77,8 @@ class NotificationsScreen extends ConsumerWidget {
                           title: Text(
                             notification.title,
                             style: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: notification.isRead 
-                                  ? FontWeight.normal 
+                              fontWeight: notification.isRead
+                                  ? FontWeight.normal
                                   : FontWeight.bold,
                             ),
                           ),
@@ -145,7 +153,7 @@ class NotificationsScreen extends ConsumerWidget {
   String _formatDateTime(DateTime dateTime) {
     final now = DateTime.now();
     final difference = now.difference(dateTime);
-    
+
     if (difference.inDays > 0) {
       return '${difference.inDays} days ago';
     } else if (difference.inHours > 0) {

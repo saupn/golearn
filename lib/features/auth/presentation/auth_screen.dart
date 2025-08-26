@@ -36,11 +36,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Icon(
-                Icons.school,
-                size: 80,
-                color: theme.colorScheme.primary,
-              ),
+              Icon(Icons.school, size: 80, color: theme.colorScheme.primary),
               const SizedBox(height: AppSpacing.lg),
               Text(
                 l10n.appTitle,
@@ -88,19 +84,21 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   Future<void> _signInWithEmail() async {
     if (_emailController.text.trim().isEmpty) return;
-    
+
     setState(() => _isLoading = true);
-    
+
     try {
-      await ref.read(authProvider.notifier).signInWithEmail(_emailController.text.trim());
+      await ref
+          .read(authProvider.notifier)
+          .signInWithEmail(_emailController.text.trim());
       if (mounted) {
         context.go('/onboarding');
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Sign in failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Sign in failed: $e')));
       }
     } finally {
       if (mounted) {
@@ -111,7 +109,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
   Future<void> _signInWithGoogle() async {
     setState(() => _isLoading = true);
-    
+
     try {
       await ref.read(authProvider.notifier).signInWithGoogle();
       if (mounted) {
@@ -119,9 +117,9 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Sign in failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Sign in failed: $e')));
       }
     } finally {
       if (mounted) {

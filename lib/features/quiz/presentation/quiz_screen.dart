@@ -48,8 +48,8 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 message: 'No quiz available for this lesson.',
               )
             : isCompleted
-                ? _buildResultsView(context, theme, quiz)
-                : _buildQuizView(context, theme, quiz),
+            ? _buildResultsView(context, theme, quiz)
+            : _buildQuizView(context, theme, quiz),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, _) => EmptyState(
           icon: Icons.error,
@@ -97,12 +97,18 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 ...question.options.asMap().entries.map((entry) {
                   final index = entry.key;
                   final option = entry.value;
-                  final isSelected = selectedAnswers[currentQuestionIndex]?.contains(index) ?? false;
+                  final isSelected =
+                      selectedAnswers[currentQuestionIndex]?.contains(index) ??
+                      false;
 
                   return Padding(
                     padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                     child: InkWell(
-                      onTap: () => _selectAnswer(currentQuestionIndex, index, question.type == 'single'),
+                      onTap: () => _selectAnswer(
+                        currentQuestionIndex,
+                        index,
+                        question.type == 'single',
+                      ),
                       borderRadius: BorderRadius.circular(AppRadius.md),
                       child: Container(
                         padding: const EdgeInsets.all(AppSpacing.md),
@@ -115,15 +121,21 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                           ),
                           borderRadius: BorderRadius.circular(AppRadius.md),
                           color: isSelected
-                              ? theme.colorScheme.primaryContainer.withOpacity(0.3)
+                              ? theme.colorScheme.primaryContainer.withOpacity(
+                                  0.3,
+                                )
                               : null,
                         ),
                         child: Row(
                           children: [
                             Icon(
                               question.type == 'single'
-                                  ? (isSelected ? Icons.radio_button_checked : Icons.radio_button_unchecked)
-                                  : (isSelected ? Icons.check_box : Icons.check_box_outline_blank),
+                                  ? (isSelected
+                                        ? Icons.radio_button_checked
+                                        : Icons.radio_button_unchecked)
+                                  : (isSelected
+                                        ? Icons.check_box
+                                        : Icons.check_box_outline_blank),
                               color: isSelected
                                   ? theme.colorScheme.primary
                                   : theme.colorScheme.onSurfaceVariant,
@@ -154,13 +166,15 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                     child: const Text('Previous'),
                   ),
                 ),
-              if (currentQuestionIndex > 0) const SizedBox(width: AppSpacing.md),
+              if (currentQuestionIndex > 0)
+                const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: PrimaryButton(
                   text: currentQuestionIndex == quiz.questions.length - 1
                       ? 'Submit Quiz'
                       : 'Next',
-                  onPressed: selectedAnswers[currentQuestionIndex]?.isNotEmpty == true
+                  onPressed:
+                      selectedAnswers[currentQuestionIndex]?.isNotEmpty == true
                       ? () => _handleNext(quiz)
                       : null,
                 ),
@@ -200,10 +214,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Your Score:',
-                      style: theme.textTheme.titleMedium,
-                    ),
+                    Text('Your Score:', style: theme.textTheme.titleMedium),
                     Text(
                       '${(finalScore! * 100).toInt()}%',
                       style: theme.textTheme.titleMedium?.copyWith(
@@ -217,10 +228,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Pass Score:',
-                      style: theme.textTheme.bodyMedium,
-                    ),
+                    Text('Pass Score:', style: theme.textTheme.bodyMedium),
                     Text(
                       '${(quiz.passScore * 100).toInt()}%',
                       style: theme.textTheme.bodyMedium,
@@ -286,13 +294,13 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       final question = quiz.questions[i];
       final userAnswers = selectedAnswers[i] ?? [];
       final correctAnswers = question.correctAnswers;
-      
-      if (userAnswers.toSet().containsAll(correctAnswers) && 
+
+      if (userAnswers.toSet().containsAll(correctAnswers) &&
           correctAnswers.toSet().containsAll(userAnswers)) {
         score += 1;
       }
     }
-    
+
     setState(() {
       finalScore = score / quiz.questions.length;
       isCompleted = true;

@@ -1,4 +1,4 @@
-enum RewardSourceType { quiz, mission, streak, bonus }
+enum RewardSourceType { quiz, mission, streak, bonus, level }
 
 class Reward {
   final String id;

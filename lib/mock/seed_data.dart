@@ -14,7 +14,8 @@ class SeedData {
       id: 'domain_1',
       name: 'Web Development',
       slug: 'web-development',
-      description: 'Learn modern web development with HTML, CSS, JavaScript, and popular frameworks',
+      description:
+          'Learn modern web development with HTML, CSS, JavaScript, and popular frameworks',
       thumbnailUrl: 'https://via.placeholder.com/300x200?text=Web+Dev',
       metrics: const DomainMetrics(
         levelCount: 10,
@@ -27,7 +28,8 @@ class SeedData {
       id: 'domain_2',
       name: 'Mobile App Development',
       slug: 'mobile-app-development',
-      description: 'Build native and cross-platform mobile applications with Flutter and React Native',
+      description:
+          'Build native and cross-platform mobile applications with Flutter and React Native',
       thumbnailUrl: 'https://via.placeholder.com/300x200?text=Mobile+Dev',
       metrics: const DomainMetrics(
         levelCount: 8,
@@ -40,7 +42,8 @@ class SeedData {
       id: 'domain_3',
       name: 'Data Science',
       slug: 'data-science',
-      description: 'Master data analysis, machine learning, and AI with Python and R',
+      description:
+          'Master data analysis, machine learning, and AI with Python and R',
       thumbnailUrl: 'https://via.placeholder.com/300x200?text=Data+Science',
       metrics: const DomainMetrics(
         levelCount: 12,
@@ -249,37 +252,31 @@ class SeedData {
             'Hyper Text Markup Language',
             'High Tech Modern Language',
             'Home Tool Markup Language',
-            'Hyperlink and Text Markup Language'
+            'Hyperlink and Text Markup Language',
           ],
           correctAnswers: [0],
           type: QuestionType.singleChoice,
-          explanation: 'HTML stands for Hyper Text Markup Language, which is the standard markup language for creating web pages.',
+          explanation:
+              'HTML stands for Hyper Text Markup Language, which is the standard markup language for creating web pages.',
         ),
         const QuizQuestion(
           id: 'q2',
-          question: 'Which of the following are valid HTML elements? (Select all that apply)',
-          options: [
-            '<div>',
-            '<span>',
-            '<paragraph>',
-            '<section>'
-          ],
+          question:
+              'Which of the following are valid HTML elements? (Select all that apply)',
+          options: ['<div>', '<span>', '<paragraph>', '<section>'],
           correctAnswers: [0, 1, 3],
           type: QuestionType.multipleChoice,
-          explanation: '<div>, <span>, and <section> are valid HTML elements. <paragraph> is not a valid HTML element; use <p> instead.',
+          explanation:
+              '<div>, <span>, and <section> are valid HTML elements. <paragraph> is not a valid HTML element; use <p> instead.',
         ),
         const QuizQuestion(
           id: 'q3',
           question: 'What is the correct HTML element for the largest heading?',
-          options: [
-            '<h6>',
-            '<h1>',
-            '<heading>',
-            '<header>'
-          ],
+          options: ['<h6>', '<h1>', '<heading>', '<header>'],
           correctAnswers: [1],
           type: QuestionType.singleChoice,
-          explanation: '<h1> is the HTML element for the largest heading. Headings range from <h1> (largest) to <h6> (smallest).',
+          explanation:
+              '<h1> is the HTML element for the largest heading. Headings range from <h1> (largest) to <h6> (smallest).',
         ),
       ],
       createdAt: DateTime.now().subtract(const Duration(days: 15)),
@@ -292,28 +289,20 @@ class SeedData {
         const QuizQuestion(
           id: 'q4',
           question: 'Which HTML element defines the document type?',
-          options: [
-            '<!DOCTYPE html>',
-            '<doctype>',
-            '<html>',
-            '<document>'
-          ],
+          options: ['<!DOCTYPE html>', '<doctype>', '<html>', '<document>'],
           correctAnswers: [0],
           type: QuestionType.singleChoice,
-          explanation: '<!DOCTYPE html> declares the document type and version of HTML.',
+          explanation:
+              '<!DOCTYPE html> declares the document type and version of HTML.',
         ),
         const QuizQuestion(
           id: 'q5',
           question: 'What are the main sections of an HTML document?',
-          options: [
-            '<head>',
-            '<body>',
-            '<footer>',
-            '<main>'
-          ],
+          options: ['<head>', '<body>', '<footer>', '<main>'],
           correctAnswers: [0, 1],
           type: QuestionType.multipleChoice,
-          explanation: 'The main sections of an HTML document are <head> and <body>. <footer> and <main> are semantic elements within the body.',
+          explanation:
+              'The main sections of an HTML document are <head> and <body>. <footer> and <main> are semantic elements within the body.',
         ),
       ],
       createdAt: DateTime.now().subtract(const Duration(days: 14)),
@@ -325,9 +314,11 @@ class SeedData {
       id: 'mission_1',
       lessonId: 'lesson_1',
       title: 'Create Your First HTML Page',
-      description: 'Create a simple HTML page with a title, heading, and paragraph. Upload the HTML file or provide a link to your hosted page.',
+      description:
+          'Create a simple HTML page with a title, heading, and paragraph. Upload the HTML file or provide a link to your hosted page.',
       proofType: ProofType.link,
-      acceptanceRule: 'Must contain valid HTML structure with <!DOCTYPE html>, <html>, <head>, <title>, <body>, <h1>, and <p> elements',
+      acceptanceRule:
+          'Must contain valid HTML structure with <!DOCTYPE html>, <html>, <head>, <title>, <body>, <h1>, and <p> elements',
       rewardBaseToken: 5.0,
       createdAt: DateTime.now().subtract(const Duration(days: 12)),
     ),
@@ -335,9 +326,11 @@ class SeedData {
       id: 'mission_2',
       lessonId: 'lesson_2',
       title: 'HTML Document Analysis',
-      description: 'Analyze an existing website and document its HTML structure. Provide a written report explaining the document structure.',
+      description:
+          'Analyze an existing website and document its HTML structure. Provide a written report explaining the document structure.',
       proofType: ProofType.text,
-      acceptanceRule: 'Report must identify DOCTYPE, head elements, body structure, and semantic elements used',
+      acceptanceRule:
+          'Report must identify DOCTYPE, head elements, body structure, and semantic elements used',
       rewardBaseToken: 7.5,
       createdAt: DateTime.now().subtract(const Duration(days: 11)),
     ),
@@ -345,9 +338,11 @@ class SeedData {
       id: 'mission_3',
       lessonId: 'lesson_3',
       title: 'HTML Elements Showcase',
-      description: 'Create an HTML page demonstrating at least 10 different HTML elements with proper attributes.',
+      description:
+          'Create an HTML page demonstrating at least 10 different HTML elements with proper attributes.',
       proofType: ProofType.link,
-      acceptanceRule: 'Must use at least 10 different HTML elements with appropriate attributes and semantic meaning',
+      acceptanceRule:
+          'Must use at least 10 different HTML elements with appropriate attributes and semantic meaning',
       rewardBaseToken: 10.0,
       createdAt: DateTime.now().subtract(const Duration(days: 10)),
     ),
@@ -434,7 +429,8 @@ class SeedData {
       userId: 'user_1',
       type: NotificationType.streak,
       title: 'Streak Alert!',
-      message: 'You\'re on a 7-day learning streak! Keep it up to earn bonus rewards.',
+      message:
+          'You\'re on a 7-day learning streak! Keep it up to earn bonus rewards.',
       deepLink: '/home',
       isRead: false,
       createdAt: DateTime.now().subtract(const Duration(hours: 2)),
@@ -444,7 +440,8 @@ class SeedData {
       userId: 'user_1',
       type: NotificationType.mission,
       title: 'Mission Available',
-      message: 'New mission available in HTML Fundamentals. Complete it to earn 10 tokens!',
+      message:
+          'New mission available in HTML Fundamentals. Complete it to earn 10 tokens!',
       deepLink: '/mission/mission_3',
       isRead: false,
       createdAt: DateTime.now().subtract(const Duration(hours: 6)),
@@ -454,7 +451,8 @@ class SeedData {
       userId: 'user_1',
       type: NotificationType.leaderboard,
       title: 'Leaderboard Update',
-      message: 'Weekly leaderboard closes in 2 days. You\'re currently in 1st place!',
+      message:
+          'Weekly leaderboard closes in 2 days. You\'re currently in 1st place!',
       deepLink: '/leaderboards?board=weekly',
       isRead: true,
       createdAt: DateTime.now().subtract(const Duration(days: 1)),

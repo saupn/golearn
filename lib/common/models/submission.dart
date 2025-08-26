@@ -1,4 +1,5 @@
 enum SubmissionStatus { pending, processing, evaluated, reviewRequired }
+
 enum SubmissionType { text, link, image, document }
 
 class Submission {

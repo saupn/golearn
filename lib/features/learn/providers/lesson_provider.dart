@@ -7,12 +7,18 @@ final lessonRepositoryProvider = Provider<LessonRepository>((ref) {
   return MockLessonRepository();
 });
 
-final lessonsByModuleProvider = FutureProvider.family<List<Lesson>, String>((ref, moduleId) async {
+final lessonsByModuleProvider = FutureProvider.family<List<Lesson>, String>((
+  ref,
+  moduleId,
+) async {
   final lessonRepo = ref.read(lessonRepositoryProvider);
   return lessonRepo.getLessonsByModule(moduleId);
 });
 
-final lessonProvider = FutureProvider.family<Lesson?, String>((ref, lessonId) async {
+final lessonProvider = FutureProvider.family<Lesson?, String>((
+  ref,
+  lessonId,
+) async {
   final lessonRepo = ref.read(lessonRepositoryProvider);
   return lessonRepo.getLesson(lessonId);
 });

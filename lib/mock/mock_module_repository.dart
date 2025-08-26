@@ -16,12 +16,21 @@ class MockModuleRepository implements ModuleRepository {
   }
 
   @override
-  Future<Module> updateModuleStatus(String moduleId, String userId, ModuleStatus status) async {
+  Future<Module> updateModuleStatus(
+    String moduleId,
+    String userId,
+    ModuleStatus status,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 200));
     final module = SeedData.modules.where((m) => m.id == moduleId).first;
     final updatedModule = module.copyWith(status: status);
     final index = SeedData.modules.indexWhere((m) => m.id == moduleId);
     SeedData.modules[index] = updatedModule;
     return updatedModule;
+  }
+
+  @override
+  Future<Module?> getModule(String id) async {
+    return getModuleById(id);
   }
 }

@@ -20,18 +20,14 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 64,
-              color: theme.colorScheme.onSurfaceVariant,
-            ),
+            Icon(icon, size: 64, color: theme.colorScheme.onSurfaceVariant),
             const SizedBox(height: AppSpacing.lg),
             Text(
               title,
@@ -50,10 +46,7 @@ class EmptyState extends StatelessWidget {
             ),
             if (actionText != null && onAction != null) ...[
               const SizedBox(height: AppSpacing.lg),
-              ElevatedButton(
-                onPressed: onAction,
-                child: Text(actionText!),
-              ),
+              ElevatedButton(onPressed: onAction, child: Text(actionText!)),
             ],
           ],
         ),

@@ -14,4 +14,9 @@ class MockMissionRepository implements MissionRepository {
     await Future.delayed(const Duration(milliseconds: 200));
     return SeedData.missions.where((m) => m.id == id).firstOrNull;
   }
+
+  @override
+  Future<Mission?> getMission(String id) async {
+    return getMissionById(id);
+  }
 }

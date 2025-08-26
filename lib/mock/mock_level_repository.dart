@@ -18,14 +18,22 @@ class MockLevelRepository implements LevelRepository {
   @override
   Future<Level?> getNextLevel(String domainId, String userId) async {
     await Future.delayed(const Duration(milliseconds: 250));
-    final levels = SeedData.levels.where((l) => l.domainId == domainId).toList();
+    final levels = SeedData.levels
+        .where((l) => l.domainId == domainId)
+        .toList();
     levels.sort((a, b) => a.levelNumber.compareTo(b.levelNumber));
-    return levels.where((l) => l.status == LevelStatus.inProgress).firstOrNull ??
-           levels.where((l) => l.status == LevelStatus.locked).firstOrNull;
+    return levels
+            .where((l) => l.status == LevelStatus.inProgress)
+            .firstOrNull ??
+        levels.where((l) => l.status == LevelStatus.locked).firstOrNull;
   }
 
   @override
-  Future<Level> updateLevelStatus(String levelId, String userId, LevelStatus status) async {
+  Future<Level> updateLevelStatus(
+    String levelId,
+    String userId,
+    LevelStatus status,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 200));
     final level = SeedData.levels.where((l) => l.id == levelId).first;
     final updatedLevel = level.copyWith(status: status);

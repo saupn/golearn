@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AppTheme {
   static const _seedColor = Color(0xFF6750A4);
-  
+
   static ThemeData get lightTheme => ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.fromSeed(
@@ -11,22 +11,15 @@ class AppTheme {
       brightness: Brightness.light,
     ),
     typography: Typography.material2021(),
-    cardTheme: const CardTheme(
-      elevation: 2,
-      margin: EdgeInsets.all(8),
-    ),
+    cardTheme: const CardThemeData(elevation: 2, margin: EdgeInsets.all(8)),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     ),
   );
@@ -38,22 +31,15 @@ class AppTheme {
       brightness: Brightness.dark,
     ),
     typography: Typography.material2021(),
-    cardTheme: const CardTheme(
-      elevation: 2,
-      margin: EdgeInsets.all(8),
-    ),
+    cardTheme: const CardThemeData(elevation: 2, margin: EdgeInsets.all(8)),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     ),
   );

@@ -6,6 +6,7 @@ import '../../../theme/app_theme.dart';
 import '../../../common/widgets/l2e_card.dart';
 import '../../../common/widgets/metric_chip.dart';
 import '../../../common/widgets/empty_state.dart';
+import '../../../common/models/lesson.dart';
 import '../providers/module_provider.dart';
 import '../providers/lesson_provider.dart';
 
@@ -22,9 +23,7 @@ class ModuleDetailScreen extends ConsumerWidget {
     final lessonsAsync = ref.watch(lessonsByModuleProvider(moduleId));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Module'),
-      ),
+      appBar: AppBar(title: const Text('Module')),
       body: moduleAsync.when(
         data: (module) => module == null
             ? const EmptyState(
@@ -47,9 +46,8 @@ class ModuleDetailScreen extends ConsumerWidget {
                               Expanded(
                                 child: Text(
                                   module.name,
-                                  style: theme.textTheme.headlineSmall?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: theme.textTheme.headlineSmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ),
                               MetricChip.fromModuleStatus(module.status),
@@ -93,71 +91,106 @@ class ModuleDetailScreen extends ConsumerWidget {
                           ? EmptyState(
                               icon: Icons.school,
                               title: 'No Lessons Available',
-                              message: 'This module doesn\'t have any lessons yet.',
+                              message:
+                                  'This module doesn\'t have any lessons yet.',
                             )
                           : Column(
-                              children: lessons.map((lesson) => Padding(
-                                padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                                child: L2ECard(
-                                  onTap: () => context.push('/lesson/${lesson.id}'),
-                                  child: ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: theme.colorScheme.secondaryContainer,
-                                      child: Icon(
-                                        lesson.contentType == 'video'
-                                            ? Icons.play_arrow
-                                            : Icons.article,
-                                        color: theme.colorScheme.onSecondaryContainer,
+                              children: lessons
+                                  .map(
+                                    (lesson) => Padding(
+                                      padding: const EdgeInsets.only(
+                                        bottom: AppSpacing.sm,
                                       ),
-                                    ),
-                                    title: Text(
-                                      lesson.title,
-                                      style: theme.textTheme.titleMedium?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text('${lesson.estimatedMinutes} min'),
-                                        if (lesson.hasQuiz)
-                                          Row(
-                                            children: [
-                                              Icon(
-                                                Icons.quiz,
-                                                size: 14,
-                                                color: theme.colorScheme.secondary,
-                                              ),
-                                              const SizedBox(width: AppSpacing.xs),
-                                              Text(
-                                                'Has Quiz',
-                                                style: theme.textTheme.bodySmall?.copyWith(
-                                                  color: theme.colorScheme.secondary,
+                                      child: L2ECard(
+                                        onTap: () => context.push(
+                                          '/lesson/${lesson.id}',
+                                        ),
+                                        child: ListTile(
+                                          leading: CircleAvatar(
+                                            backgroundColor: theme
+                                                .colorScheme
+                                                .secondaryContainer,
+                                            child: Icon(
+                                              lesson.contentType ==
+                                                      ContentType.video
+                                                  ? Icons.play_arrow
+                                                  : Icons.article,
+                                              color: theme
+                                                  .colorScheme
+                                                  .onSecondaryContainer,
+                                            ),
+                                          ),
+                                          title: Text(
+                                            lesson.title,
+                                            style: theme.textTheme.titleMedium
+                                                ?.copyWith(
+                                                  fontWeight: FontWeight.bold,
                                                 ),
+                                          ),
+                                          subtitle: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${lesson.estimatedMinutes} min',
+                                              ),
+                                              if (lesson.hasQuiz)
+                                                Row(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.quiz,
+                                                      size: 14,
+                                                      color: theme
+                                                          .colorScheme
+                                                          .secondary,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: AppSpacing.xs,
+                                                    ),
+                                                    Text(
+                                                      'Has Quiz',
+                                                      style: theme
+                                                          .textTheme
+                                                          .bodySmall
+                                                          ?.copyWith(
+                                                            color: theme
+                                                                .colorScheme
+                                                                .secondary,
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
+                                            ],
+                                          ),
+                                          trailing: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              MetricChip.fromLessonStatus(
+                                                lesson.status,
+                                              ),
+                                              const SizedBox(
+                                                width: AppSpacing.sm,
+                                              ),
+                                              const Icon(
+                                                Icons.arrow_forward_ios,
                                               ),
                                             ],
                                           ),
-                                      ],
+                                        ),
+                                      ),
                                     ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        MetricChip.fromLessonStatus(lesson.status),
-                                        const SizedBox(width: AppSpacing.sm),
-                                        const Icon(Icons.arrow_forward_ios),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              )).toList(),
+                                  )
+                                  .toList(),
                             ),
-                      loading: () => const Center(child: CircularProgressIndicator()),
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
                       error: (error, _) => EmptyState(
                         icon: Icons.error,
                         title: 'Error Loading Lessons',
                         message: 'Failed to load lessons: $error',
                         actionText: 'Retry',
-                        onAction: () => ref.invalidate(lessonsByModuleProvider(moduleId)),
+                        onAction: () =>
+                            ref.invalidate(lessonsByModuleProvider(moduleId)),
                       ),
                     ),
                   ],

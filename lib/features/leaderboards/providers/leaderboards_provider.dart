@@ -8,15 +8,22 @@ final leaderboardRepositoryProvider = Provider<LeaderboardRepository>((ref) {
   return MockLeaderboardRepository();
 });
 
-final leaderboardProvider = FutureProvider.family<List<LeaderboardEntry>, String>((ref, boardId) async {
-  final leaderboardRepo = ref.read(leaderboardRepositoryProvider);
-  return leaderboardRepo.getLeaderboard(boardId);
-});
+final leaderboardProvider =
+    FutureProvider.family<List<LeaderboardEntry>, String>((ref, boardId) async {
+      final leaderboardRepo = ref.read(leaderboardRepositoryProvider);
+      return leaderboardRepo.getLeaderboard(boardId);
+    });
 
-final myLeaderboardPositionProvider = FutureProvider.family<LeaderboardEntry?, String>((ref, boardId) async {
-  final user = await ref.watch(authProvider.future);
-  if (user == null) return null;
-  
-  final leaderboardRepo = ref.read(leaderboardRepositoryProvider);
-  return leaderboardRepo.getUserPosition(boardId, user.id);
-});
+final myLeaderboardPositionProvider =
+    FutureProvider.family<LeaderboardEntry?, String>((ref, boardId) async {
+      final authState = ref.watch(authProvider);
+      return authState.when(
+        data: (user) async {
+          if (user == null) return null;
+          final leaderboardRepo = ref.read(leaderboardRepositoryProvider);
+          return leaderboardRepo.getUserPosition(boardId, user.id);
+        },
+        loading: () => null,
+        error: (_, __) => null,
+      );
+    });

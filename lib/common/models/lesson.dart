@@ -1,4 +1,5 @@
 enum LessonStatus { locked, inProgress, completed }
+
 enum ContentType { video, reading, interactive }
 
 class Lesson {

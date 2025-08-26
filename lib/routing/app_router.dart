@@ -25,10 +25,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/auth',
     routes: [
-      GoRoute(
-        path: '/auth',
-        builder: (context, state) => const AuthScreen(),
-      ),
+      GoRoute(path: '/auth', builder: (context, state) => const AuthScreen()),
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
@@ -46,45 +43,38 @@ final appRouterProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/domain/:id',
-            builder: (context, state) => DomainDetailScreen(
-              domainId: state.pathParameters['id']!,
-            ),
+            builder: (context, state) =>
+                DomainDetailScreen(domainId: state.pathParameters['id']!),
           ),
           GoRoute(
             path: '/domain/:id/levels',
-            builder: (context, state) => LevelsScreen(
-              domainId: state.pathParameters['id']!,
-            ),
+            builder: (context, state) =>
+                LevelsScreen(domainId: state.pathParameters['id']!),
           ),
           GoRoute(
             path: '/level/:id',
-            builder: (context, state) => LevelDetailScreen(
-              levelId: state.pathParameters['id']!,
-            ),
+            builder: (context, state) =>
+                LevelDetailScreen(levelId: state.pathParameters['id']!),
           ),
           GoRoute(
             path: '/module/:id',
-            builder: (context, state) => ModuleDetailScreen(
-              moduleId: state.pathParameters['id']!,
-            ),
+            builder: (context, state) =>
+                ModuleDetailScreen(moduleId: state.pathParameters['id']!),
           ),
           GoRoute(
             path: '/lesson/:id',
-            builder: (context, state) => LessonDetailScreen(
-              lessonId: state.pathParameters['id']!,
-            ),
+            builder: (context, state) =>
+                LessonDetailScreen(lessonId: state.pathParameters['id']!),
           ),
           GoRoute(
             path: '/quiz/:lessonId',
-            builder: (context, state) => QuizScreen(
-              lessonId: state.pathParameters['lessonId']!,
-            ),
+            builder: (context, state) =>
+                QuizScreen(lessonId: state.pathParameters['lessonId']!),
           ),
           GoRoute(
             path: '/mission/:id',
-            builder: (context, state) => MissionDetailScreen(
-              missionId: state.pathParameters['id']!,
-            ),
+            builder: (context, state) =>
+                MissionDetailScreen(missionId: state.pathParameters['id']!),
           ),
           GoRoute(
             path: '/submission/:id',

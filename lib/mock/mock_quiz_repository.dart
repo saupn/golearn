@@ -1,4 +1,3 @@
-import 'dart:math';
 import '../common/models/quiz.dart';
 import '../common/repositories/quiz_repository.dart';
 import 'seed_data.dart';
@@ -13,12 +12,16 @@ class MockQuizRepository implements QuizRepository {
   }
 
   @override
-  Future<QuizResult> submitQuizResult(String quizId, String userId, List<int> answers) async {
+  Future<QuizResult> submitQuizResult(
+    String quizId,
+    String userId,
+    List<int> answers,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 500));
-    
+
     final quiz = SeedData.quizzes.where((q) => q.id == quizId).first;
     int correctAnswers = 0;
-    
+
     for (int i = 0; i < quiz.questions.length && i < answers.length; i++) {
       final question = quiz.questions[i];
       if (question.type == QuestionType.singleChoice) {
@@ -31,10 +34,10 @@ class MockQuizRepository implements QuizRepository {
         }
       }
     }
-    
+
     final score = correctAnswers / quiz.questions.length;
     final passed = score >= quiz.passScore;
-    
+
     final result = QuizResult(
       quizId: quizId,
       userAnswers: answers,
@@ -42,7 +45,7 @@ class MockQuizRepository implements QuizRepository {
       passed: passed,
       completedAt: DateTime.now(),
     );
-    
+
     _results.add(result);
     return result;
   }
@@ -51,5 +54,10 @@ class MockQuizRepository implements QuizRepository {
   Future<List<QuizResult>> getUserQuizResults(String userId) async {
     await Future.delayed(const Duration(milliseconds: 200));
     return _results;
+  }
+
+  @override
+  Future<Quiz?> getQuizByLesson(String lessonId) async {
+    return getQuizByLessonId(lessonId);
   }
 }

@@ -8,10 +8,12 @@ final transactionRepositoryProvider = Provider<TransactionRepository>((ref) {
 });
 
 final availableBalanceProvider = FutureProvider<double>((ref) async {
-  final user = await ref.watch(authProvider.future);
-  if (user == null) return 0.0;
-  
-  return user.stats.tokenOffchain;
+  final authState = ref.watch(authProvider);
+  return authState.when(
+    data: (user) => user?.stats.tokenOffchain ?? 0.0,
+    loading: () => 0.0,
+    error: (_, __) => 0.0,
+  );
 });
 
 final claimProvider = StateNotifierProvider<ClaimNotifier, ClaimState>((ref) {
@@ -32,14 +34,12 @@ class ClaimNotifier extends StateNotifier<ClaimState> {
 
     await Future.delayed(const Duration(seconds: 2));
 
-    state = state.copyWith(
-      step: 2,
-      statusMessage: 'Processing your claim...',
-    );
+    state = state.copyWith(step: 2, statusMessage: 'Processing your claim...');
 
     await Future.delayed(const Duration(seconds: 3));
 
-    final user = await _ref.read(authProvider.future);
+    final authState = _ref.read(authProvider);
+    final user = authState.value;
     if (user == null) return;
 
     final transactionRepo = _ref.read(transactionRepositoryProvider);

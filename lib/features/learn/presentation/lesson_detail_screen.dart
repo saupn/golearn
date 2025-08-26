@@ -6,6 +6,7 @@ import '../../../theme/app_theme.dart';
 import '../../../common/widgets/l2e_card.dart';
 import '../../../common/widgets/primary_button.dart';
 import '../../../common/widgets/empty_state.dart';
+import '../../../common/models/lesson.dart';
 import '../providers/lesson_provider.dart';
 
 class LessonDetailScreen extends ConsumerWidget {
@@ -20,9 +21,7 @@ class LessonDetailScreen extends ConsumerWidget {
     final lessonAsync = ref.watch(lessonProvider(lessonId));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Lesson'),
-      ),
+      appBar: AppBar(title: const Text('Lesson')),
       body: lessonAsync.when(
         data: (lesson) => lesson == null
             ? const EmptyState(
@@ -49,7 +48,7 @@ class LessonDetailScreen extends ConsumerWidget {
                           Row(
                             children: [
                               Icon(
-                                lesson.contentType == 'video'
+                                lesson.contentType == ContentType.video
                                     ? Icons.play_circle
                                     : Icons.article,
                                 color: theme.colorScheme.primary,
@@ -71,9 +70,10 @@ class LessonDetailScreen extends ConsumerWidget {
                                     const SizedBox(width: AppSpacing.xs),
                                     Text(
                                       'Quiz Available',
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        color: theme.colorScheme.secondary,
-                                      ),
+                                      style: theme.textTheme.bodySmall
+                                          ?.copyWith(
+                                            color: theme.colorScheme.secondary,
+                                          ),
                                     ),
                                   ],
                                 ),
@@ -83,7 +83,7 @@ class LessonDetailScreen extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: AppSpacing.lg),
-                    if (lesson.contentType == 'video') ...[
+                    if (lesson.contentType == ContentType.video) ...[
                       L2ECard(
                         child: Column(
                           children: [
@@ -92,7 +92,9 @@ class LessonDetailScreen extends ConsumerWidget {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: theme.colorScheme.surfaceVariant,
-                                borderRadius: BorderRadius.circular(AppRadius.md),
+                                borderRadius: BorderRadius.circular(
+                                  AppRadius.md,
+                                ),
                               ),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -105,9 +107,8 @@ class LessonDetailScreen extends ConsumerWidget {
                                   const SizedBox(height: AppSpacing.md),
                                   Text(
                                     'Video Content',
-                                    style: theme.textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     'Mock video player',
@@ -164,21 +165,29 @@ class LessonDetailScreen extends ConsumerWidget {
                               ),
                             ),
                             const SizedBox(height: AppSpacing.sm),
-                            ...List.generate(3, (index) => Padding(
-                              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('• ', style: theme.textTheme.bodyMedium),
-                                  Expanded(
-                                    child: Text(
-                                      'Learning point ${index + 1} - Important concept to understand',
+                            ...List.generate(
+                              3,
+                              (index) => Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: AppSpacing.sm,
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '• ',
                                       style: theme.textTheme.bodyMedium,
                                     ),
-                                  ),
-                                ],
+                                    Expanded(
+                                      child: Text(
+                                        'Learning point ${index + 1} - Important concept to understand',
+                                        style: theme.textTheme.bodyMedium,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            )),
+                            ),
                           ],
                         ),
                       ),

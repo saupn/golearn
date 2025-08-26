@@ -7,12 +7,18 @@ final missionRepositoryProvider = Provider<MissionRepository>((ref) {
   return MockMissionRepository();
 });
 
-final missionsByLessonProvider = FutureProvider.family<List<Mission>, String>((ref, lessonId) async {
+final missionsByLessonProvider = FutureProvider.family<List<Mission>, String>((
+  ref,
+  lessonId,
+) async {
   final missionRepo = ref.read(missionRepositoryProvider);
   return missionRepo.getMissionsByLesson(lessonId);
 });
 
-final missionProvider = FutureProvider.family<Mission?, String>((ref, missionId) async {
+final missionProvider = FutureProvider.family<Mission?, String>((
+  ref,
+  missionId,
+) async {
   final missionRepo = ref.read(missionRepositoryProvider);
   return missionRepo.getMission(missionId);
 });

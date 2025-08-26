@@ -20,9 +20,7 @@ class RewardsScreen extends ConsumerWidget {
     final balanceAsync = ref.watch(tokenBalanceProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.rewards),
-      ),
+      appBar: AppBar(title: Text(l10n.rewards)),
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(userRewardsProvider);
@@ -80,7 +78,8 @@ class RewardsScreen extends ConsumerWidget {
                         Text(
                           'Minimum 10 L2E required to claim',
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onPrimaryContainer.withOpacity(0.7),
+                            color: theme.colorScheme.onPrimaryContainer
+                                .withOpacity(0.7),
                           ),
                         ),
                       ],
@@ -90,9 +89,8 @@ class RewardsScreen extends ConsumerWidget {
                 loading: () => const L2ECard(
                   child: Center(child: CircularProgressIndicator()),
                 ),
-                error: (error, _) => L2ECard(
-                  child: Text('Error loading balance: $error'),
-                ),
+                error: (error, _) =>
+                    L2ECard(child: Text('Error loading balance: $error')),
               ),
               const SizedBox(height: AppSpacing.lg),
               Text(
@@ -107,37 +105,50 @@ class RewardsScreen extends ConsumerWidget {
                     ? EmptyState(
                         icon: Icons.card_giftcard,
                         title: 'No Rewards Yet',
-                        message: 'Complete quizzes and missions to earn your first rewards!',
+                        message:
+                            'Complete quizzes and missions to earn your first rewards!',
                         actionText: 'Start Learning',
                         onAction: () => context.push('/domains'),
                       )
                     : Column(
-                        children: rewards.map((reward) => Padding(
-                          padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                          child: L2ECard(
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: theme.colorScheme.secondaryContainer,
-                                child: Icon(
-                                  _getRewardIcon(reward.sourceType),
-                                  color: theme.colorScheme.onSecondaryContainer,
+                        children: rewards
+                            .map(
+                              (reward) => Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: AppSpacing.sm,
+                                ),
+                                child: L2ECard(
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor:
+                                          theme.colorScheme.secondaryContainer,
+                                      child: Icon(
+                                        _getRewardIcon(reward.sourceType),
+                                        color: theme
+                                            .colorScheme
+                                            .onSecondaryContainer,
+                                      ),
+                                    ),
+                                    title: Text(
+                                      _getRewardTitle(reward.sourceType),
+                                    ),
+                                    subtitle: Text(
+                                      _formatDateTime(reward.createdAt),
+                                      style: theme.textTheme.bodySmall,
+                                    ),
+                                    trailing: Text(
+                                      '+${reward.tokenAwarded.toStringAsFixed(1)} L2E',
+                                      style: theme.textTheme.titleMedium
+                                          ?.copyWith(
+                                            color: theme.colorScheme.primary,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                              title: Text(_getRewardTitle(reward.sourceType)),
-                              subtitle: Text(
-                                _formatDateTime(reward.createdAt),
-                                style: theme.textTheme.bodySmall,
-                              ),
-                              trailing: Text(
-                                '+${reward.tokenAwarded.toStringAsFixed(1)} L2E',
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  color: theme.colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )).toList(),
+                            )
+                            .toList(),
                       ),
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) => EmptyState(
@@ -165,6 +176,8 @@ class RewardsScreen extends ConsumerWidget {
         return Icons.local_fire_department;
       case RewardSourceType.level:
         return Icons.layers;
+      case RewardSourceType.bonus:
+        return Icons.card_giftcard;
     }
   }
 
@@ -178,13 +191,15 @@ class RewardsScreen extends ConsumerWidget {
         return 'Streak Bonus';
       case RewardSourceType.level:
         return 'Level Completed';
+      case RewardSourceType.bonus:
+        return 'Bonus Reward';
     }
   }
 
   String _formatDateTime(DateTime dateTime) {
     final now = DateTime.now();
     final difference = now.difference(dateTime);
-    
+
     if (difference.inDays > 0) {
       return '${difference.inDays} days ago';
     } else if (difference.inHours > 0) {

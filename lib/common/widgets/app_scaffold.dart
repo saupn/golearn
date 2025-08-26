@@ -10,7 +10,7 @@ class AppScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    
+
     return Scaffold(
       body: child,
       bottomNavigationBar: BottomNavigationBar(
@@ -42,11 +42,16 @@ class AppScaffold extends StatelessWidget {
   int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.path;
     if (location.startsWith('/home')) return 0;
-    if (location.startsWith('/domains') || location.startsWith('/domain') || 
-        location.startsWith('/level') || location.startsWith('/module') || 
-        location.startsWith('/lesson') || location.startsWith('/quiz') || 
-        location.startsWith('/mission')) return 1;
-    if (location.startsWith('/rewards') || location.startsWith('/claim')) return 2;
+    if (location.startsWith('/domains') ||
+        location.startsWith('/domain') ||
+        location.startsWith('/level') ||
+        location.startsWith('/module') ||
+        location.startsWith('/lesson') ||
+        location.startsWith('/quiz') ||
+        location.startsWith('/mission'))
+      return 1;
+    if (location.startsWith('/rewards') || location.startsWith('/claim'))
+      return 2;
     if (location.startsWith('/profile')) return 3;
     return 0;
   }

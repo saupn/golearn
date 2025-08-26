@@ -8,9 +8,14 @@ final rewardRepositoryProvider = Provider<RewardRepository>((ref) {
 });
 
 final tokenBalanceProvider = FutureProvider<double>((ref) async {
-  final user = await ref.watch(authProvider.future);
-  if (user == null) return 0.0;
-  
-  final rewardRepo = ref.read(rewardRepositoryProvider);
-  return rewardRepo.getUserTokenBalance(user.id);
+  final authState = ref.watch(authProvider);
+  return authState.when(
+    data: (user) async {
+      if (user == null) return 0.0;
+      final rewardRepo = ref.read(rewardRepositoryProvider);
+      return rewardRepo.getUserTokenBalance(user.id);
+    },
+    loading: () => 0.0,
+    error: (_, __) => 0.0,
+  );
 });

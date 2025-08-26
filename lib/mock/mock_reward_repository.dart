@@ -13,9 +13,14 @@ class MockRewardRepository implements RewardRepository {
   }
 
   @override
-  Future<Reward> createReward(String userId, RewardSourceType sourceType, String sourceRef, double amount) async {
+  Future<Reward> createReward(
+    String userId,
+    RewardSourceType sourceType,
+    String sourceRef,
+    double amount,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 300));
-    
+
     final reward = Reward(
       id: 'reward_${DateTime.now().millisecondsSinceEpoch}',
       userId: userId,
@@ -24,7 +29,7 @@ class MockRewardRepository implements RewardRepository {
       tokenAwarded: amount,
       createdAt: DateTime.now(),
     );
-    
+
     _rewards.add(reward);
     _currentBalance += amount;
     return reward;

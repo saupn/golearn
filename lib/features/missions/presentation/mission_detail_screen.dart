@@ -6,6 +6,8 @@ import '../../../theme/app_theme.dart';
 import '../../../common/widgets/l2e_card.dart';
 import '../../../common/widgets/primary_button.dart';
 import '../../../common/widgets/empty_state.dart';
+import '../../../common/models/mission.dart';
+import '../../../common/models/submission.dart';
 import '../providers/mission_provider.dart';
 
 class MissionDetailScreen extends ConsumerWidget {
@@ -20,9 +22,7 @@ class MissionDetailScreen extends ConsumerWidget {
     final missionAsync = ref.watch(missionProvider(missionId));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mission'),
-      ),
+      appBar: AppBar(title: const Text('Mission')),
       body: missionAsync.when(
         data: (mission) => mission == null
             ? const EmptyState(
@@ -50,9 +50,8 @@ class MissionDetailScreen extends ConsumerWidget {
                               Expanded(
                                 child: Text(
                                   mission.title,
-                                  style: theme.textTheme.headlineSmall?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: theme.textTheme.headlineSmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ],
@@ -148,10 +147,13 @@ class MissionDetailScreen extends ConsumerWidget {
                                 ),
                                 Text(
                                   '${mission.rewardBaseToken} L2E Tokens',
-                                  style: theme.textTheme.headlineSmall?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: theme.colorScheme.onPrimaryContainer,
-                                  ),
+                                  style: theme.textTheme.headlineSmall
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: theme
+                                            .colorScheme
+                                            .onPrimaryContainer,
+                                      ),
                                 ),
                               ],
                             ),
@@ -162,7 +164,8 @@ class MissionDetailScreen extends ConsumerWidget {
                     const SizedBox(height: AppSpacing.xl),
                     PrimaryButton(
                       text: 'Submit Proof',
-                      onPressed: () => _showSubmissionBottomSheet(context, mission),
+                      onPressed: () =>
+                          _showSubmissionBottomSheet(context, mission),
                     ),
                   ],
                 ),
@@ -179,37 +182,33 @@ class MissionDetailScreen extends ConsumerWidget {
     );
   }
 
-  IconData _getProofTypeIcon(String proofType) {
-    switch (proofType.toLowerCase()) {
-      case 'text':
+  IconData _getProofTypeIcon(ProofType proofType) {
+    switch (proofType) {
+      case ProofType.text:
         return Icons.text_fields;
-      case 'image':
+      case ProofType.image:
         return Icons.image;
-      case 'video':
-        return Icons.videocam;
-      case 'link':
+      case ProofType.link:
         return Icons.link;
-      case 'file':
+      case ProofType.document:
         return Icons.attach_file;
       default:
         return Icons.description;
     }
   }
 
-  String _getProofTypeLabel(String proofType) {
-    switch (proofType.toLowerCase()) {
-      case 'text':
+  String _getProofTypeLabel(ProofType proofType) {
+    switch (proofType) {
+      case ProofType.text:
         return 'Text Description';
-      case 'image':
+      case ProofType.image:
         return 'Image Upload';
-      case 'video':
-        return 'Video Upload';
-      case 'link':
+      case ProofType.link:
         return 'Web Link';
-      case 'file':
+      case ProofType.document:
         return 'File Upload';
       default:
-        return proofType;
+        return proofType.name;
     }
   }
 
@@ -244,7 +243,7 @@ class MissionDetailScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
-              if (mission.proofType.toLowerCase() == 'text') ...[
+              if (mission.proofType == ProofType.text) ...[
                 TextField(
                   controller: textController,
                   maxLines: 4,
@@ -271,7 +270,7 @@ class MissionDetailScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: AppSpacing.sm),
                       Text(
-                        'Tap to upload ${mission.proofType}',
+                        'Tap to upload ${mission.proofType.name}',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -300,7 +299,8 @@ class MissionDetailScreen extends ConsumerWidget {
                   const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () => _submitProof(context, mission, textController.text),
+                      onPressed: () =>
+                          _submitProof(context, mission, textController.text),
                       child: const Text('Submit'),
                     ),
                   ),
@@ -315,10 +315,12 @@ class MissionDetailScreen extends ConsumerWidget {
 
   void _submitProof(BuildContext context, mission, String proofText) {
     Navigator.of(context).pop();
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Proof submitted successfully! Redirecting to submission details...'),
+        content: Text(
+          'Proof submitted successfully! Redirecting to submission details...',
+        ),
         backgroundColor: Colors.green,
       ),
     );

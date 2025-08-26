@@ -7,7 +7,10 @@ final quizRepositoryProvider = Provider<QuizRepository>((ref) {
   return MockQuizRepository();
 });
 
-final quizByLessonProvider = FutureProvider.family<Quiz?, String>((ref, lessonId) async {
+final quizByLessonProvider = FutureProvider.family<Quiz?, String>((
+  ref,
+  lessonId,
+) async {
   final quizRepo = ref.read(quizRepositoryProvider);
   return quizRepo.getQuizByLesson(lessonId);
 });

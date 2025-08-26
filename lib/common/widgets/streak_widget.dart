@@ -18,7 +18,7 @@ class StreakWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.md),
@@ -61,7 +61,9 @@ class StreakWidget extends StatelessWidget {
             LinearProgressIndicator(
               value: currentStreak / nextBonusAt,
               backgroundColor: theme.colorScheme.surfaceVariant,
-              valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                theme.colorScheme.primary,
+              ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
@@ -91,7 +93,7 @@ class _StreakStat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

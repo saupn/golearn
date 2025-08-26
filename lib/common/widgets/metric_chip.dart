@@ -41,7 +41,7 @@ class MetricChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = _getStatusColors(context, status);
-    
+
     return Chip(
       label: Text(
         label,
@@ -125,7 +125,7 @@ class MetricChip extends StatelessWidget {
 
   _StatusColors _getStatusColors(BuildContext context, MetricStatus status) {
     final theme = Theme.of(context);
-    
+
     switch (status) {
       case MetricStatus.locked:
         return _StatusColors(
@@ -152,8 +152,5 @@ class _StatusColors {
   final Color backgroundColor;
   final Color textColor;
 
-  _StatusColors({
-    required this.backgroundColor,
-    required this.textColor,
-  });
+  _StatusColors({required this.backgroundColor, required this.textColor});
 }

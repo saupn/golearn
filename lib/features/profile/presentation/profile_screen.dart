@@ -126,9 +126,14 @@ class ProfileScreen extends ConsumerWidget {
                           ListTile(
                             leading: const Icon(Icons.language),
                             title: const Text('Language'),
-                            subtitle: Text(user.preferredLanguage == 'vi' ? 'Tiếng Việt' : 'English'),
+                            subtitle: Text(
+                              user.preferredLanguage == 'vi'
+                                  ? 'Tiếng Việt'
+                                  : 'English',
+                            ),
                             trailing: const Icon(Icons.arrow_forward_ios),
-                            onTap: () => _showLanguageDialog(context, ref, user),
+                            onTap: () =>
+                                _showLanguageDialog(context, ref, user),
                           ),
                           const Divider(),
                           ListTile(
@@ -142,10 +147,15 @@ class ProfileScreen extends ConsumerWidget {
                             leading: const Icon(Icons.account_balance_wallet),
                             title: const Text('Wallet'),
                             subtitle: user.wallets.polygonAddress != null
-                                ? Text('${user.wallets.polygonAddress!.substring(0, 6)}...${user.wallets.polygonAddress!.substring(user.wallets.polygonAddress!.length - 4)}')
+                                ? Text(
+                                    '${user.wallets.polygonAddress!.substring(0, 6)}...${user.wallets.polygonAddress!.substring(user.wallets.polygonAddress!.length - 4)}',
+                                  )
                                 : const Text('No wallet connected'),
                             trailing: const Icon(Icons.arrow_forward_ios),
-                            onTap: () => _showWalletInfo(context, user.wallets.polygonAddress),
+                            onTap: () => _showWalletInfo(
+                              context,
+                              user.wallets.polygonAddress,
+                            ),
                           ),
                         ],
                       ),
@@ -178,9 +188,14 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildStat(BuildContext context, String label, String value, IconData icon) {
+  Widget _buildStat(
+    BuildContext context,
+    String label,
+    String value,
+    IconData icon,
+  ) {
     final theme = Theme.of(context);
-    
+
     return Column(
       children: [
         Icon(icon, color: theme.colorScheme.primary, size: 32),
@@ -231,9 +246,9 @@ class ProfileScreen extends ConsumerWidget {
               groupValue: user.preferredLanguage,
               onChanged: (value) {
                 if (value != null) {
-                  ref.read(authProvider.notifier).updateUser(
-                    user.copyWith(preferredLanguage: value),
-                  );
+                  ref
+                      .read(authProvider.notifier)
+                      .updateUser(user.copyWith(preferredLanguage: value));
                   Navigator.of(context).pop();
                 }
               },
@@ -244,9 +259,9 @@ class ProfileScreen extends ConsumerWidget {
               groupValue: user.preferredLanguage,
               onChanged: (value) {
                 if (value != null) {
-                  ref.read(authProvider.notifier).updateUser(
-                    user.copyWith(preferredLanguage: value),
-                  );
+                  ref
+                      .read(authProvider.notifier)
+                      .updateUser(user.copyWith(preferredLanguage: value));
                   Navigator.of(context).pop();
                 }
               },

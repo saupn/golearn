@@ -9,19 +9,22 @@ class MockEvaluationRepository implements EvaluationRepository {
   @override
   Future<Evaluation?> getEvaluationBySubmissionId(String submissionId) async {
     await Future.delayed(const Duration(milliseconds: 200));
-    return _evaluations.where((e) => e.submissionId == submissionId).firstOrNull;
+    return _evaluations
+        .where((e) => e.submissionId == submissionId)
+        .firstOrNull;
   }
 
   @override
   Future<Evaluation> createMockEvaluation(String submissionId) async {
     await Future.delayed(const Duration(milliseconds: 1000));
-    
+
     final criteria = [
       EvalItem(
         label: 'Content Quality',
         weight: 0.4,
         score: 0.7 + _random.nextDouble() * 0.3,
-        comment: 'Good understanding of the concepts with room for improvement in detail.',
+        comment:
+            'Good understanding of the concepts with room for improvement in detail.',
       ),
       EvalItem(
         label: 'Technical Implementation',
@@ -42,14 +45,17 @@ class MockEvaluationRepository implements EvaluationRepository {
         comment: 'Clean, well-structured code following best practices.',
       ),
     ];
-    
-    final totalScore = criteria.fold(0.0, (sum, item) => sum + (item.score * item.weight));
+
+    final totalScore = criteria.fold(
+      0.0,
+      (sum, item) => sum + (item.score * item.weight),
+    );
     final passed = totalScore >= 0.7;
-    
+
     final flags = <EvaluationFlag>[];
     if (_random.nextDouble() < 0.1) flags.add(EvaluationFlag.plagiarism);
     if (_random.nextDouble() < 0.05) flags.add(EvaluationFlag.suspiciousImage);
-    
+
     final evaluation = Evaluation(
       id: 'eval_${DateTime.now().millisecondsSinceEpoch}',
       submissionId: submissionId,
@@ -58,13 +64,18 @@ class MockEvaluationRepository implements EvaluationRepository {
       totalScore: totalScore,
       passed: passed,
       flags: flags,
-      feedback: passed 
-        ? 'Great work! You\'ve demonstrated a solid understanding of the concepts.'
-        : 'Good effort! Please review the feedback and consider resubmitting.',
+      feedback: passed
+          ? 'Great work! You\'ve demonstrated a solid understanding of the concepts.'
+          : 'Good effort! Please review the feedback and consider resubmitting.',
       createdAt: DateTime.now(),
     );
-    
+
     _evaluations.add(evaluation);
     return evaluation;
+  }
+
+  @override
+  Future<Evaluation?> getEvaluationBySubmission(String submissionId) async {
+    return getEvaluationBySubmissionId(submissionId);
   }
 }

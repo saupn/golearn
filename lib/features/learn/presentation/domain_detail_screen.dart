@@ -42,12 +42,16 @@ class DomainDetailScreen extends ConsumerWidget {
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) =>
                                   Container(
-                                color: Theme.of(context).colorScheme.surfaceVariant,
-                                child: const Icon(Icons.school, size: 64),
-                              ),
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.surfaceVariant,
+                                    child: const Icon(Icons.school, size: 64),
+                                  ),
                             )
                           : Container(
-                              color: Theme.of(context).colorScheme.surfaceVariant,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.surfaceVariant,
                               child: const Icon(Icons.school, size: 64),
                             ),
                     ),
@@ -62,15 +66,15 @@ class DomainDetailScreen extends ConsumerWidget {
                             children: [
                               Text(
                                 'About',
-                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: AppSpacing.sm),
                               Text(domain.description),
                               const SizedBox(height: AppSpacing.md),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
                                   _buildMetric(
                                     context,
@@ -100,30 +104,43 @@ class DomainDetailScreen extends ConsumerWidget {
                           data: (nextLevel) => nextLevel != null
                               ? L2ECard(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Next Level',
-                                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                          fontWeight: FontWeight.bold,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                       ),
                                       const SizedBox(height: AppSpacing.sm),
                                       Text(
                                         'Level ${nextLevel.levelNumber}: ${nextLevel.title}',
-                                        style: Theme.of(context).textTheme.titleSmall,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.titleSmall,
                                       ),
                                       const SizedBox(height: AppSpacing.sm),
                                       Text(
                                         'Target Income: \$${nextLevel.incomeTargetUsd.toStringAsFixed(0)}',
-                                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium
+                                            ?.copyWith(
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.onSurfaceVariant,
+                                            ),
                                       ),
                                       const SizedBox(height: AppSpacing.md),
                                       PrimaryButton(
                                         text: 'Start Level',
-                                        onPressed: () => context.push('/level/${nextLevel.id}'),
+                                        onPressed: () => context.push(
+                                          '/level/${nextLevel.id}',
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -136,7 +153,9 @@ class DomainDetailScreen extends ConsumerWidget {
                                       const Text('All levels completed!'),
                                       const SizedBox(height: AppSpacing.md),
                                       OutlinedButton(
-                                        onPressed: () => context.push('/domain/$domainId/levels'),
+                                        onPressed: () => context.push(
+                                          '/domain/$domainId/levels',
+                                        ),
                                         child: const Text('View All Levels'),
                                       ),
                                     ],
@@ -153,16 +172,16 @@ class DomainDetailScreen extends ConsumerWidget {
                         PrimaryButton(
                           text: 'View All Levels',
                           icon: Icons.list,
-                          onPressed: () => context.push('/domain/$domainId/levels'),
+                          onPressed: () =>
+                              context.push('/domain/$domainId/levels'),
                         ),
                       ]),
                     ),
                   ),
                 ],
               ),
-        loading: () => const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        ),
+        loading: () =>
+            const Scaffold(body: Center(child: CircularProgressIndicator())),
         error: (error, stack) => Scaffold(
           appBar: AppBar(),
           body: EmptyState(
@@ -177,9 +196,14 @@ class DomainDetailScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildMetric(BuildContext context, String label, String value, IconData icon) {
+  Widget _buildMetric(
+    BuildContext context,
+    String label,
+    String value,
+    IconData icon,
+  ) {
     final theme = Theme.of(context);
-    
+
     return Column(
       children: [
         Icon(icon, color: theme.colorScheme.primary),

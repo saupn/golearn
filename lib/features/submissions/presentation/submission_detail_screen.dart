@@ -21,9 +21,7 @@ class SubmissionDetailScreen extends ConsumerWidget {
     final submissionAsync = ref.watch(submissionProvider(submissionId));
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Submission'),
-      ),
+      appBar: AppBar(title: const Text('Submission')),
       body: submissionAsync.when(
         data: (submission) => submission == null
             ? const EmptyState(
@@ -82,7 +80,7 @@ class SubmissionDetailScreen extends ConsumerWidget {
                               ),
                               const SizedBox(width: AppSpacing.sm),
                               Text(
-                                'Type: ${submission.type}',
+                                'Type: ${submission.type.name}',
                                 style: theme.textTheme.bodyMedium,
                               ),
                             ],
@@ -147,25 +145,34 @@ class SubmissionDetailScreen extends ConsumerWidget {
                             const SizedBox(height: AppSpacing.lg),
                             PrimaryButton(
                               text: 'Run AI Evaluation (Mock)',
-                              onPressed: () => ref.read(submissionProvider(submissionId).notifier)
+                              onPressed: () => ref
+                                  .read(
+                                    submissionProvider(submissionId).notifier,
+                                  )
                                   .simulateEvaluation(),
                             ),
                           ],
                         ),
                       ),
-                    ] else if (submission.status == SubmissionStatus.evaluated) ...[
+                    ] else if (submission.status ==
+                        SubmissionStatus.evaluated) ...[
                       Consumer(
                         builder: (context, ref, child) {
-                          final evaluationAsync = ref.watch(evaluationBySubmissionProvider(submissionId));
+                          final evaluationAsync = ref.watch(
+                            evaluationBySubmissionProvider(submissionId),
+                          );
                           return evaluationAsync.when(
                             data: (evaluation) => evaluation == null
                                 ? const EmptyState(
                                     icon: Icons.assessment,
                                     title: 'No Evaluation Available',
-                                    message: 'Evaluation results are not available yet.',
+                                    message:
+                                        'Evaluation results are not available yet.',
                                   )
                                 : _buildEvaluationResults(theme, evaluation),
-                            loading: () => const Center(child: CircularProgressIndicator()),
+                            loading: () => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
                             error: (error, _) => EmptyState(
                               icon: Icons.error,
                               title: 'Error Loading Evaluation',
@@ -286,43 +293,51 @@ class SubmissionDetailScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
-              ...evaluation.perCriteria.map((criteria) => Padding(
-                padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          criteria.label,
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
+              ...evaluation.perCriteria
+                  .map(
+                    (criteria) => Padding(
+                      padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                criteria.label,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '${(criteria.score * 100).toInt()}%',
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: criteria.score >= 0.7
+                                      ? Colors.green
+                                      : Colors.red,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Text(
-                          '${(criteria.score * 100).toInt()}%',
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: criteria.score >= 0.7 ? Colors.green : Colors.red,
+                          const SizedBox(height: AppSpacing.xs),
+                          LinearProgressIndicator(
+                            value: criteria.score,
+                            backgroundColor: theme.colorScheme.surfaceVariant,
+                            color: criteria.score >= 0.7
+                                ? Colors.green
+                                : Colors.red,
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: AppSpacing.sm),
+                          Text(
+                            criteria.comment,
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(height: AppSpacing.xs),
-                    LinearProgressIndicator(
-                      value: criteria.score,
-                      backgroundColor: theme.colorScheme.surfaceVariant,
-                      color: criteria.score >= 0.7 ? Colors.green : Colors.red,
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      criteria.comment,
-                      style: theme.textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-              )).toList(),
+                  )
+                  .toList(),
             ],
           ),
         ),
@@ -347,16 +362,20 @@ class SubmissionDetailScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: AppSpacing.md),
-                ...evaluation.flags.map((flag) => Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-                  child: Row(
-                    children: [
-                      Icon(Icons.warning, size: 16, color: Colors.orange),
-                      const SizedBox(width: AppSpacing.sm),
-                      Text(flag, style: theme.textTheme.bodyMedium),
-                    ],
-                  ),
-                )).toList(),
+                ...evaluation.flags
+                    .map(
+                      (flag) => Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        child: Row(
+                          children: [
+                            Icon(Icons.warning, size: 16, color: Colors.orange),
+                            const SizedBox(width: AppSpacing.sm),
+                            Text(flag, style: theme.textTheme.bodyMedium),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
               ],
             ),
           ),
@@ -365,17 +384,15 @@ class SubmissionDetailScreen extends ConsumerWidget {
     );
   }
 
-  IconData _getSubmissionTypeIcon(String type) {
-    switch (type.toLowerCase()) {
-      case 'text':
+  IconData _getSubmissionTypeIcon(SubmissionType type) {
+    switch (type) {
+      case SubmissionType.text:
         return Icons.text_fields;
-      case 'image':
+      case SubmissionType.image:
         return Icons.image;
-      case 'video':
-        return Icons.videocam;
-      case 'link':
+      case SubmissionType.link:
         return Icons.link;
-      case 'file':
+      case SubmissionType.document:
         return Icons.attach_file;
       default:
         return Icons.description;

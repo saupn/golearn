@@ -1,4 +1,5 @@
 enum TransactionType { claim, stake, unstake, reward }
+
 enum TransactionStatus { pending, confirmed, reversed }
 
 class Transaction {

@@ -63,7 +63,9 @@ class _LeaderboardsScreenState extends ConsumerState<LeaderboardsScreen>
     return Consumer(
       builder: (context, ref, child) {
         final leaderboardAsync = ref.watch(leaderboardProvider(boardId));
-        final myPositionAsync = ref.watch(myLeaderboardPositionProvider(boardId));
+        final myPositionAsync = ref.watch(
+          myLeaderboardPositionProvider(boardId),
+        );
 
         return RefreshIndicator(
           onRefresh: () async {
@@ -77,31 +79,39 @@ class _LeaderboardsScreenState extends ConsumerState<LeaderboardsScreen>
                     ? Padding(
                         padding: const EdgeInsets.all(AppSpacing.md),
                         child: L2ECard(
-                          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+                          backgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.primaryContainer,
                           child: ListTile(
                             leading: CircleAvatar(
-                              backgroundColor: Theme.of(context).colorScheme.primary,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
                               child: Text(
                                 myPosition.rank.toString(),
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onPrimary,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                             title: Text(
                               'My Position',
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
                             ),
                             subtitle: Text(myPosition.displayName),
                             trailing: Text(
                               myPosition.metricValue.toStringAsFixed(0),
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                              style: Theme.of(context).textTheme.titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
                             ),
                           ),
                         ),
@@ -119,12 +129,16 @@ class _LeaderboardsScreenState extends ConsumerState<LeaderboardsScreen>
                           message: 'Check back later for leaderboard rankings.',
                         )
                       : ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.md,
+                          ),
                           itemCount: entries.length,
                           itemBuilder: (context, index) {
                             final entry = entries[index];
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                              padding: const EdgeInsets.only(
+                                bottom: AppSpacing.sm,
+                              ),
                               child: L2ECard(
                                 child: ListTile(
                                   leading: CircleAvatar(
@@ -144,30 +158,38 @@ class _LeaderboardsScreenState extends ConsumerState<LeaderboardsScreen>
                                   ),
                                   title: Text(
                                     entry.displayName,
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   subtitle: Text('Rank #${entry.rank}'),
                                   trailing: Text(
                                     entry.metricValue.toStringAsFixed(0),
-                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context).colorScheme.primary,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
                                   ),
                                 ),
                               ),
                             );
                           },
                         ),
-                  loading: () => const Center(child: CircularProgressIndicator()),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
                   error: (error, _) => EmptyState(
                     icon: Icons.error,
                     title: 'Error Loading Leaderboard',
                     message: 'Failed to load leaderboard: $error',
                     actionText: 'Retry',
-                    onAction: () => ref.invalidate(leaderboardProvider(boardId)),
+                    onAction: () =>
+                        ref.invalidate(leaderboardProvider(boardId)),
                   ),
                 ),
               ),

@@ -16,7 +16,11 @@ class MockLessonRepository implements LessonRepository {
   }
 
   @override
-  Future<Lesson> updateLessonStatus(String lessonId, String userId, LessonStatus status) async {
+  Future<Lesson> updateLessonStatus(
+    String lessonId,
+    String userId,
+    LessonStatus status,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 200));
     final lesson = SeedData.lessons.where((l) => l.id == lessonId).first;
     final updatedLesson = lesson.copyWith(status: status);
@@ -28,7 +32,16 @@ class MockLessonRepository implements LessonRepository {
   @override
   Future<Lesson?> getNextLesson(String userId) async {
     await Future.delayed(const Duration(milliseconds: 250));
-    return SeedData.lessons.where((l) => l.status == LessonStatus.inProgress).firstOrNull ??
-           SeedData.lessons.where((l) => l.status == LessonStatus.locked).firstOrNull;
+    return SeedData.lessons
+            .where((l) => l.status == LessonStatus.inProgress)
+            .firstOrNull ??
+        SeedData.lessons
+            .where((l) => l.status == LessonStatus.locked)
+            .firstOrNull;
+  }
+
+  @override
+  Future<Lesson?> getLesson(String id) async {
+    return getLessonById(id);
   }
 }

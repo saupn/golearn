@@ -29,7 +29,7 @@ class LevelDetailScreen extends ConsumerWidget {
               expandedHeight: 200,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text('Level ${level.levelNumber}'),
+                title: Text('Level ${level?.levelNumber ?? 0}'),
                 background: Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -47,7 +47,7 @@ class LevelDetailScreen extends ConsumerWidget {
                       children: [
                         const SizedBox(height: 40),
                         Text(
-                          level.title,
+                          level?.title ?? 'Unknown Level',
                           style: theme.textTheme.headlineMedium?.copyWith(
                             color: theme.colorScheme.onPrimary,
                             fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class LevelDetailScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: AppSpacing.sm),
                         Text(
-                          'Target: \$${level.incomeTargetUsd.toStringAsFixed(0)}',
+                          'Target: \$${level?.incomeTargetUsd.toStringAsFixed(0) ?? '0'}',
                           style: theme.textTheme.titleMedium?.copyWith(
                             color: theme.colorScheme.onPrimary.withOpacity(0.9),
                           ),
@@ -86,25 +86,40 @@ class LevelDetailScreen extends ConsumerWidget {
                           const SizedBox(height: AppSpacing.md),
                           Row(
                             children: [
-                              Icon(Icons.emoji_events, color: theme.colorScheme.primary),
+                              Icon(
+                                Icons.emoji_events,
+                                color: theme.colorScheme.primary,
+                              ),
                               const SizedBox(width: AppSpacing.sm),
-                              Text('Reward: ${level.rewardRule.baseToken} L2E tokens'),
+                              Text(
+                                'Reward: ${level?.rewardRule.baseToken ?? 0} L2E tokens',
+                              ),
                             ],
                           ),
                           const SizedBox(height: AppSpacing.sm),
                           Row(
                             children: [
-                              Icon(Icons.quiz, color: theme.colorScheme.secondary),
+                              Icon(
+                                Icons.quiz,
+                                color: theme.colorScheme.secondary,
+                              ),
                               const SizedBox(width: AppSpacing.sm),
-                              Text('Min Quiz Score: ${(level.gatingRule.minQuizScore * 100).toInt()}%'),
+                              Text(
+                                'Min Quiz Score: ${((level?.gatingRule.minQuizScore ?? 0) * 100).toInt()}%',
+                              ),
                             ],
                           ),
                           const SizedBox(height: AppSpacing.sm),
                           Row(
                             children: [
-                              Icon(Icons.assignment, color: theme.colorScheme.tertiary),
+                              Icon(
+                                Icons.assignment,
+                                color: theme.colorScheme.tertiary,
+                              ),
                               const SizedBox(width: AppSpacing.sm),
-                              Text('Required Missions: ${level.gatingRule.requiredMissions}'),
+                              Text(
+                                'Required Missions: ${level?.gatingRule.requiredMissions ?? 0}',
+                              ),
                             ],
                           ),
                         ],
@@ -132,53 +147,52 @@ class LevelDetailScreen extends ConsumerWidget {
                       ),
                     )
                   : SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          final module = modules[index];
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.md,
-                              vertical: AppSpacing.sm,
-                            ),
-                            child: L2ECard(
-                              onTap: () => context.push('/module/${module.id}'),
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor: theme.colorScheme.secondaryContainer,
-                                  child: Text(
-                                    '${module.indexInLevel + 1}',
-                                    style: TextStyle(
-                                      color: theme.colorScheme.onSecondaryContainer,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                title: Text(
-                                  module.name,
-                                  style: theme.textTheme.titleMedium?.copyWith(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final module = modules[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.md,
+                            vertical: AppSpacing.sm,
+                          ),
+                          child: L2ECard(
+                            onTap: () => context.push('/module/${module.id}'),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor:
+                                    theme.colorScheme.secondaryContainer,
+                                child: Text(
+                                  '${module.indexInLevel + 1}',
+                                  style: TextStyle(
+                                    color:
+                                        theme.colorScheme.onSecondaryContainer,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(module.description),
-                                    const SizedBox(height: AppSpacing.xs),
-                                    Text(
-                                      'Type: ${module.strandType}',
-                                      style: theme.textTheme.bodySmall?.copyWith(
-                                        color: theme.colorScheme.primary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                trailing: const Icon(Icons.arrow_forward_ios),
                               ),
+                              title: Text(
+                                module.name,
+                                style: theme.textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(module.description),
+                                  const SizedBox(height: AppSpacing.xs),
+                                  Text(
+                                    'Type: ${module.strandType}',
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.primary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              trailing: const Icon(Icons.arrow_forward_ios),
                             ),
-                          );
-                        },
-                        childCount: modules.length,
-                      ),
+                          ),
+                        );
+                      }, childCount: modules.length),
                     ),
               loading: () => const SliverToBoxAdapter(
                 child: Center(child: CircularProgressIndicator()),
@@ -189,18 +203,16 @@ class LevelDetailScreen extends ConsumerWidget {
                   title: 'Error Loading Modules',
                   message: 'Failed to load modules: $error',
                   actionText: 'Retry',
-                  onAction: () => ref.invalidate(modulesByLevelProvider(levelId)),
+                  onAction: () =>
+                      ref.invalidate(modulesByLevelProvider(levelId)),
                 ),
               ),
             ),
-            const SliverToBoxAdapter(
-              child: SizedBox(height: AppSpacing.xl),
-            ),
+            const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
           ],
         ),
-        loading: () => const Scaffold(
-          body: Center(child: CircularProgressIndicator()),
-        ),
+        loading: () =>
+            const Scaffold(body: Center(child: CircularProgressIndicator())),
         error: (error, _) => Scaffold(
           appBar: AppBar(title: const Text('Level')),
           body: EmptyState(

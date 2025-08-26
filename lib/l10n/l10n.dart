@@ -12,38 +12,73 @@ class AppLocalizations {
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
 
-  static const List<Locale> supportedLocales = [
-    Locale('en'),
-    Locale('vi'),
-  ];
+  static const List<Locale> supportedLocales = [Locale('en'), Locale('vi')];
 
-  String get appTitle => _localizedValues[locale.languageCode]?['app_title'] ?? 'L2E - Learn to Earn';
+  String get appTitle =>
+      _localizedValues[locale.languageCode]?['app_title'] ??
+      'L2E - Learn to Earn';
   String get home => _localizedValues[locale.languageCode]?['home'] ?? 'Home';
-  String get learn => _localizedValues[locale.languageCode]?['learn'] ?? 'Learn';
-  String get rewards => _localizedValues[locale.languageCode]?['rewards'] ?? 'Rewards';
-  String get profile => _localizedValues[locale.languageCode]?['profile'] ?? 'Profile';
-  String get signIn => _localizedValues[locale.languageCode]?['sign_in'] ?? 'Sign In';
-  String get signInWithEmail => _localizedValues[locale.languageCode]?['sign_in_with_email'] ?? 'Sign in with Email';
-  String get signInWithGoogle => _localizedValues[locale.languageCode]?['sign_in_with_google'] ?? 'Sign in with Google';
-  String get welcome => _localizedValues[locale.languageCode]?['welcome'] ?? 'Welcome';
-  String get currentStreak => _localizedValues[locale.languageCode]?['current_streak'] ?? 'Current Streak';
-  String get longestStreak => _localizedValues[locale.languageCode]?['longest_streak'] ?? 'Longest Streak';
-  String get tokenBalance => _localizedValues[locale.languageCode]?['token_balance'] ?? 'Token Balance';
-  String get continueLesson => _localizedValues[locale.languageCode]?['continue_lesson'] ?? 'Continue Lesson';
-  String get claimRewards => _localizedValues[locale.languageCode]?['claim_rewards'] ?? 'Claim Rewards';
-  String get leaderboard => _localizedValues[locale.languageCode]?['leaderboard'] ?? 'Leaderboard';
-  String get domains => _localizedValues[locale.languageCode]?['domains'] ?? 'Domains';
-  String get levels => _localizedValues[locale.languageCode]?['levels'] ?? 'Levels';
-  String get lessons => _localizedValues[locale.languageCode]?['lessons'] ?? 'Lessons';
+  String get learn =>
+      _localizedValues[locale.languageCode]?['learn'] ?? 'Learn';
+  String get rewards =>
+      _localizedValues[locale.languageCode]?['rewards'] ?? 'Rewards';
+  String get profile =>
+      _localizedValues[locale.languageCode]?['profile'] ?? 'Profile';
+  String get signIn =>
+      _localizedValues[locale.languageCode]?['sign_in'] ?? 'Sign In';
+  String get signInWithEmail =>
+      _localizedValues[locale.languageCode]?['sign_in_with_email'] ??
+      'Sign in with Email';
+  String get signInWithGoogle =>
+      _localizedValues[locale.languageCode]?['sign_in_with_google'] ??
+      'Sign in with Google';
+  String get welcome =>
+      _localizedValues[locale.languageCode]?['welcome'] ?? 'Welcome';
+  String get currentStreak =>
+      _localizedValues[locale.languageCode]?['current_streak'] ??
+      'Current Streak';
+  String get longestStreak =>
+      _localizedValues[locale.languageCode]?['longest_streak'] ??
+      'Longest Streak';
+  String get tokenBalance =>
+      _localizedValues[locale.languageCode]?['token_balance'] ??
+      'Token Balance';
+  String get continueLesson =>
+      _localizedValues[locale.languageCode]?['continue_lesson'] ??
+      'Continue Lesson';
+  String get claimRewards =>
+      _localizedValues[locale.languageCode]?['claim_rewards'] ??
+      'Claim Rewards';
+  String get leaderboard =>
+      _localizedValues[locale.languageCode]?['leaderboard'] ?? 'Leaderboard';
+  String get leaderboards =>
+      _localizedValues[locale.languageCode]?['leaderboards'] ?? 'Leaderboards';
+  String get notifications =>
+      _localizedValues[locale.languageCode]?['notifications'] ??
+      'Notifications';
+  String get domains =>
+      _localizedValues[locale.languageCode]?['domains'] ?? 'Domains';
+  String get levels =>
+      _localizedValues[locale.languageCode]?['levels'] ?? 'Levels';
+  String get lessons =>
+      _localizedValues[locale.languageCode]?['lessons'] ?? 'Lessons';
   String get quiz => _localizedValues[locale.languageCode]?['quiz'] ?? 'Quiz';
-  String get mission => _localizedValues[locale.languageCode]?['mission'] ?? 'Mission';
-  String get submitProof => _localizedValues[locale.languageCode]?['submit_proof'] ?? 'Submit Proof';
-  String get evaluation => _localizedValues[locale.languageCode]?['evaluation'] ?? 'Evaluation';
-  String get passed => _localizedValues[locale.languageCode]?['passed'] ?? 'Passed';
-  String get failed => _localizedValues[locale.languageCode]?['failed'] ?? 'Failed';
-  String get pending => _localizedValues[locale.languageCode]?['pending'] ?? 'Pending';
-  String get processing => _localizedValues[locale.languageCode]?['processing'] ?? 'Processing';
-  String get evaluated => _localizedValues[locale.languageCode]?['evaluated'] ?? 'Evaluated';
+  String get mission =>
+      _localizedValues[locale.languageCode]?['mission'] ?? 'Mission';
+  String get submitProof =>
+      _localizedValues[locale.languageCode]?['submit_proof'] ?? 'Submit Proof';
+  String get evaluation =>
+      _localizedValues[locale.languageCode]?['evaluation'] ?? 'Evaluation';
+  String get passed =>
+      _localizedValues[locale.languageCode]?['passed'] ?? 'Passed';
+  String get failed =>
+      _localizedValues[locale.languageCode]?['failed'] ?? 'Failed';
+  String get pending =>
+      _localizedValues[locale.languageCode]?['pending'] ?? 'Pending';
+  String get processing =>
+      _localizedValues[locale.languageCode]?['processing'] ?? 'Processing';
+  String get evaluated =>
+      _localizedValues[locale.languageCode]?['evaluated'] ?? 'Evaluated';
 
   static const Map<String, Map<String, String>> _localizedValues = {
     'en': {
@@ -62,6 +97,8 @@ class AppLocalizations {
       'continue_lesson': 'Continue Lesson',
       'claim_rewards': 'Claim Rewards',
       'leaderboard': 'Leaderboard',
+      'leaderboards': 'Leaderboards',
+      'notifications': 'Notifications',
       'domains': 'Domains',
       'levels': 'Levels',
       'lessons': 'Lessons',
@@ -91,6 +128,8 @@ class AppLocalizations {
       'continue_lesson': 'Tiếp tục bài học',
       'claim_rewards': 'Nhận thưởng',
       'leaderboard': 'Bảng xếp hạng',
+      'leaderboards': 'Bảng xếp hạng',
+      'notifications': 'Thông báo',
       'domains': 'Lĩnh vực',
       'levels': 'Cấp độ',
       'lessons': 'Bài học',
@@ -107,7 +146,8 @@ class AppLocalizations {
   };
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
